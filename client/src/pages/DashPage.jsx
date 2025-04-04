@@ -1,25 +1,69 @@
 import { useState, useEffect } from 'react';
 import { Sidebar } from '../components/DashSidebar';
-import { DashboardPage, MenuPage, IngredientsPage, ReportsPage } from '../components/DashSections';
+import { DashboardPage, IngredientsPage, ReportsPage } from '../components/DashSections';
+import { MenuPage } from '../components/UpdateMenuSection';
 import { dummyBookingData } from './tempdata';
 
 const useDashboardData = () => {
   const [bookingStats, setBookingStats] = useState([]);
   const [ingredientRequirements, setIngredientRequirements] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    setBookingStats(dummyBookingData);
-    
-    const ingredients = {};
-    dummyBookingData.forEach(item => {
-      Object.entries(item.ingredients).forEach(([ingredient, quantity]) => {
-        ingredients[ingredient] = (ingredients[ingredient] || 0) + quantity;
-      });
-    });
-    setIngredientRequirements(ingredients);
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        console.log("Getting some of that dashboard data");
+        const response = await fetch('http://localhost:8080/api/menu/'); 
+        const data = await response.json();
+        console.log("Data has been recieved!!");
+        
+        if (data && data.length > 0) {
+          setBookingStats(data);
+          
+          const ingredients = {};
+          data.forEach(item => {
+            Object.entries(item.ingredients).forEach(([ingredient, quantity]) => {
+              ingredients[ingredient] = (ingredients[ingredient] || 0) + quantity;
+            });
+          });
+          setIngredientRequirements(ingredients);
+        } else {
+          // Fallback to dummy data if API returns empty
+          console.warn('No data received from API, using fallback data');
+          setBookingStats(dummyBookingData);
+          
+          const ingredients = {};
+          dummyBookingData.forEach(item => {
+            Object.entries(item.ingredients).forEach(([ingredient, quantity]) => {
+              ingredients[ingredient] = (ingredients[ingredient] || 0) + quantity;
+            });
+          });
+          setIngredientRequirements(ingredients);
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError(err.message);
+        // Fallback to dummy data on error
+        setBookingStats(dummyBookingData);
+        
+        const ingredients = {};
+        dummyBookingData.forEach(item => {
+          Object.entries(item.ingredients).forEach(([ingredient, quantity]) => {
+            ingredients[ingredient] = (ingredients[ingredient] || 0) + quantity;
+          });
+        });
+        setIngredientRequirements(ingredients);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  return { bookingStats, ingredientRequirements };
+  return { bookingStats, ingredientRequirements, isLoading, error };
 };
 
 const useChartData = (bookingStats, ingredientRequirements) => {
@@ -84,7 +128,7 @@ const DashPage = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const { bookingStats, ingredientRequirements } = useDashboardData();
+  const { bookingStats, ingredientRequirements, isLoading, error } = useDashboardData();
   const { 
     mostPopular, 
     leastPopular, 
@@ -104,7 +148,20 @@ const DashPage = () => {
 
       <div className="flex-1 overflow-auto">
         <div className="p-6 max-w-7xl mx-auto">
-          {activeTab === 'dashboard' && (
+          {isLoading && (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+          )}
+
+          {error && (
+            <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+              <p className="font-bold">Error Loading Data</p>
+              <p>Showing fallback data: {error}</p>
+            </div>
+          )}
+
+          {!isLoading && activeTab === 'dashboard' && (
             <DashboardPage 
               bookingStats={bookingStats}
               popularityData={popularityData}
@@ -116,14 +173,14 @@ const DashPage = () => {
             />
           )}
 
-          {activeTab === 'menu' && <MenuPage bookingStats={bookingStats} />}
-          {activeTab === 'ingredients' && (
+          {!isLoading && activeTab === 'menu' && <MenuPage bookingStats={bookingStats} />}
+          {!isLoading && activeTab === 'ingredients' && (
             <IngredientsPage 
               ingredientData={ingredientData}
               ingredientRequirements={ingredientRequirements}
             />
           )}
-          {activeTab === 'reports' && (
+          {!isLoading && activeTab === 'reports' && (
             <ReportsPage 
               leastPopular={leastPopular}
               mostPopular={mostPopular}

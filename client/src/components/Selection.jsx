@@ -91,7 +91,7 @@ const Selection = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {mealsBySlot[activeTab].map(item => {
                 const locked = isSlotLocked(activeTab);
-                const maxPortions = item.maxPortions || 3; // Add maxPortions to your menu items
+                const maxPortions = 3; 
 
                 return (
                   <div 
