@@ -1,18 +1,23 @@
 const express = require('express');
+const dotenv = require("dotenv");
+const connectToDb = require('./config/mongo.config.js');
+const userRoutes = require('./routes/userRoutes.js');
+const menuRoutes = require('./routes/menuRoutes.js');
+
+dotenv.config({ path: './.env.local' });
+connectToDb();
+
 const app = express();
 const PORT = 8080;
 
-const docRoutes = require('./routes/docRoutes.js');
-const userRoutes = require('./routes/userRoutes.js');
-const reviewRoutes = require('./routes/revRoutes.js');
+app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Document Version Control API (Client  goes here?)');
+app.get('/check', (req, res) => {
+    res.send('Yep, it works.');
 });
 
-app.use('/docs', docRoutes);
-app.use('/users', userRoutes);
-app.use('/revs', reviewRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/menu', menuRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

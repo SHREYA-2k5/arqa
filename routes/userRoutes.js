@@ -1,7 +1,38 @@
-const express = require('express');
-const router = express.Router();
-const usersController = require('../controllers/userController.js');
+const express = require("express");
+const User = require("../models/users.model.js");
 
-router.get('/', usersController.getUsers);
+const router = express.Router();
+
+router.get("/", async (req, res) => {
+    try {
+        const users = await User.find();
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching users", desc: error });
+    }
+});
+
+router.post("/", async (req, res) => {
+    const { name, email, password } = req.body;
+    try {
+        const newUser = new User({ name, email });
+        await newUser.save();
+        res.status(201).json(newUser);
+    } catch (error) {
+        res.status(500).json({ error: "Error creating user" });
+    }
+});
+
+
+router.get("/:id", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if(!user)
+            return res.status(404).json({ error: "User not found" });
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching user with id " + req.params.id });
+    }
+});
 
 module.exports = router;

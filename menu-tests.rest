@@ -1,0 +1,177 @@
+@baseUrl = http://localhost:8080/api/menu
+
+### Get all menu items
+GET {{baseUrl}} HTTP/1.1
+Content-Type: application/json
+
+### Get a specific menu item
+GET {{baseUrl}}/65d1a9f8e6a2b3c1f4e5d6c7 HTTP/1.1
+Content-Type: application/json
+
+### Create a new menu item
+POST {{baseUrl}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "item": "Masala Dosa",
+  "desc": "Crispy rice crepe stuffed with spiced potatoes, served with sambar and chutney",
+  "veg": true,
+  "slot": "breakfast",
+  "date": "2023-06-16"
+}
+
+### Update a menu item
+PUT {{baseUrl}}/65d1a9f8e6a2b3c1f4e5d6c7 HTTP/1.1
+Content-Type: application/json
+
+{
+  "desc": "Crispy rice crepe with spiced potato filling, served with sambar and coconut chutney",
+  "veg": true
+}
+
+### Delete a menu item
+DELETE {{baseUrl}}/65d1a9f8e6a2b3c1f4e5d6c7 HTTP/1.1
+Content-Type: application/json
+
+//temp-------------------------------------------------
+### POST all menu items in bulk
+POST {{baseUrl}}/bulk HTTP/1.1
+Content-Type: application/json
+
+[
+  {
+    "item": "Upma",
+    "desc": "Rava Upma with Sambar and Chutney",
+    "veg": true,
+    "slot": "breakfast",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 120,
+    "ingredients": {
+      "rava": 15,
+      "vegetables": 5,
+      "oil": 2
+    }
+  },
+  {
+    "item": "Fried Egg",
+    "desc": "Single egg, cooked on both sides",
+    "veg": false,
+    "slot": "breakfast",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 85,
+    "ingredients": {
+      "eggs": 85,
+      "oil": 1
+    }
+  },
+  {
+    "item": "Plain White Rice",
+    "desc": "Simple, plain white rice",
+    "veg": true,
+    "slot": "lunch",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 200,
+    "ingredients": {
+      "rice": 30
+    }
+  },
+  {
+    "item": "Raw Mango Sambar",
+    "desc": "Tangy lentil stew with raw mango and vegetables",
+    "veg": true,
+    "slot": "lunch",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 180,
+    "ingredients": {
+      "lentils": 10,
+      "mango": 5,
+      "vegetables": 8
+    }
+  },
+  {
+    "item": "Cabbage Poriyal",
+    "desc": "Dry cabbage, onion and carrot veggie",
+    "veg": true,
+    "slot": "lunch",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 90,
+    "ingredients": {
+      "cabbage": 10,
+      "coconut": 2
+    }
+  },
+  {
+    "item": "Soya Chunk Gravy",
+    "desc": "Soya chunks in a red gravy base",
+    "veg": true,
+    "slot": "lunch",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 150,
+    "ingredients": {
+      "soya": 8,
+      "tomatoes": 5,
+      "onions": 4
+    }
+  },
+  {
+    "item": "Chappati",
+    "desc": "With added maida!",
+    "veg": true,
+    "slot": "lunch",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 220,
+    "ingredients": {
+      "wheat": 25,
+      "oil": 3
+    }
+  },
+  {
+    "item": "Sundal",
+    "desc": "Mixture of Peanuts and Corn",
+    "veg": true,
+    "slot": "snack",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 70,
+    "ingredients": {
+      "chickpeas": 7,
+      "coconut": 1
+    }
+  },
+  {
+    "item": "Parotta",
+    "desc": "Layered and oily parotta to eat with your gravy",
+    "veg": true,
+    "slot": "dinner",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 160,
+    "ingredients": {
+      "maida": 20,
+      "oil": 5
+    }
+  },
+  {
+    "item": "Mix Veg Gravy",
+    "desc": "Eat with parotta",
+    "veg": true,
+    "slot": "dinner",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 110,
+    "ingredients": {
+      "vegetables": 12,
+      "coconut": 3
+    }
+  },
+  {
+    "item": "Mix Non-Veg Gravy",
+    "desc": "Eat with parotta",
+    "veg": false,
+    "slot": "dinner",
+    "date": "2023-06-15T00:00:00.000Z",
+    "bookings": 95,
+    "ingredients": {
+      "chicken": 15,
+      "onions": 5,
+      "tomatoes": 5
+    }
+  }
+]

@@ -1,7 +1,7 @@
 {
-  "name": "feverfew",
+  "name": "arqa",
   "version": "1.0.0",
-  "description": "Document Version Control",
+  "description": "Stop food wastage.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,12 @@
   "author": "nilay",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }
