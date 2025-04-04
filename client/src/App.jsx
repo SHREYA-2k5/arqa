@@ -4,7 +4,7 @@ import HomePage from './pages/HomePage';
 import BookingPage from './pages/BookingPage';
 import DashPage from './pages/DashPage';
 import ProfilePage from './pages/ProfilePage';
-
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
               <Route path="/prebook" element={<BookingPage />} />
               <Route path="/dash" element={<DashPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/login" element={<LoginPage />} />
             </Routes>
           </div>
         </div>
