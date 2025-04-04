@@ -5,6 +5,7 @@ import BookingPage from './pages/BookingPage';
 import DashPage from './pages/DashPage';
 import ProfilePage from './pages/ProfilePage';
 import LoginPage from './pages/LoginPage';
+import Connect from './pages/connect';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
               <Route path="/dash" element={<DashPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/Connect" element={<Connect/>} />
+
             </Routes>
           </div>
         </div>
