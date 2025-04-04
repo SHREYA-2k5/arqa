@@ -6,10 +6,10 @@ import { menuItems } from './tempdata';
 
 const BookingPage = () => {
     const [cutoffTimes] = useState({
-      breakfast: "20:00 (previous)",
-      lunch: "20:00",
-      snack: "19:00 ", 
-      dinner: "20:00"
+      breakfast: "23:59 (previous)",
+      lunch: "23:59",
+      snack: "23:59 ", 
+      dinner: "23:59"
     });
     
     const mealsBySlot = {

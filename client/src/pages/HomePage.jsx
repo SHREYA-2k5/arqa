@@ -86,12 +86,6 @@ function HomePage() {
             <h3 className="text-xl font-bold mb-4">Contact Us</h3>
             <p className="text-gray-400 mb-2">info@saveandshare.com</p>
             <p className="text-gray-400 mb-4">+1 (123) 456-7890</p>
-            <div className="flex space-x-4">
-              <IconBrandFacebook className="text-xl text-orange-500 hover:text-black cursor-pointer transition" />
-              <IconBrandInstagram className="text-xl text-orange-500 hover:text-black cursor-pointer transition" />
-              <IconBrandYoutube className="text-xl text-orange-500 hover:text-black cursor-pointer transition" />
-              <IconBrandX className="text-xl text-orange-500 hover:text-black cursor-pointer transition" />
-            </div>
           </div>
         </div>
 
