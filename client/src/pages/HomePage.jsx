@@ -29,7 +29,7 @@ function HomePage() {
       {/*About us section*/}
       <div className="bg-white rounded-t-3xl mt-[-2rem] relative z-10 px-6 md:px-16 lg:px-24 pt-16 pb-24"
      style={{ 
-       clipPath: "polygon(0 0, 65% 0, 100% 80px, 100% 100%, 0 100%)"
+       clipPath: "polygon(86% 0, 94% 4%, 100% 4%, 100% 100%, 11% 100%, 0 91%, 0 0)"
      }}>
   <div className="max-w-4xl mx-auto">
     <h2 className="text-4xl md:text-5xl font-bold text-orange-500 text-center mb-8">About Us</h2>

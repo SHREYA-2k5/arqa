@@ -62,7 +62,7 @@ const Selection = ({
                       ? 'bg-[#e65f2b] text-white shadow-inner' 
                       : locked 
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                        : 'text-gray-600 hover:bg-blue-50 hover:text-blue-700'}`}
+                        : 'text-gray-600 hover:bg-[#FFE9E0] hover:text-[#000000]'}`}
                   onClick={() => !locked && setActiveTab(slot)}
                   disabled={locked}
                 >
@@ -80,7 +80,7 @@ const Selection = ({
                 <button
                   type="button"
                   onClick={handleSelectAll}
-                  className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+                  className="flex items-center gap-2 text-[#000] hover:text-[#e65f2b] font-medium"
                 >
                   <IconChecklist size={20} />
                   Select All {activeTab} Items
@@ -98,7 +98,7 @@ const Selection = ({
                     key={item.id} 
                     className={`p-6 border rounded-xl transition-all duration-200 relative
                       ${selections[item.id].optedIn 
-                        ? 'ring-2 ring-blue-500 bg-blue-50 border-transparent' 
+                        ? 'ring-2 ring-[#e65f2b] bg-[#FFE9E0] border-transparent' 
                         : 'border-gray-100 hover:shadow-md hover:border-blue-100'}
                       ${locked ? 'opacity-75 pointer-events-none' : ''}`}
                   >
@@ -186,7 +186,7 @@ const Selection = ({
                           peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] 
                           after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 
                           after:border after:rounded-full after:h-5 after:w-5 after:transition-all 
-                          peer-checked:bg-blue-600">
+                          peer-checked:bg-[#e65f2b]">
                         </div>
                       </label>
                     </div>
@@ -199,10 +199,10 @@ const Selection = ({
               <button
                 type="submit"
                 disabled={isSlotLocked(activeTab)}
-                className="px-12 py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 
-                  text-white font-semibold text-lg rounded-xl shadow-lg transition-all duration-300
-                  transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2
-                  disabled:opacity-75 disabled:hover:scale-100 disabled:cursor-not-allowed"
+                className="px-12 py-4 bg-gradient-to-r from-[#e65f2b] to-[#f08c54] hover:from-[#f08c54] hover:to-[#e65f2b] 
+                text-white font-semibold text-lg rounded-xl shadow-lg transition-all duration-300
+                transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#f08c54] focus:ring-offset-2
+                disabled:opacity-75 disabled:hover:scale-100 disabled:cursor-not-allowed"
               >
                 Confirm Meal Preferences
                 <IconArrowRight className="ml-2 inline-block" />

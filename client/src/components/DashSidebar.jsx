@@ -24,7 +24,7 @@ export const Sidebar = ({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen }
           <div
             key={tab.id}
             className={`flex items-center p-4 cursor-pointer ${
-              activeTab === tab.id ? 'bg-[#e65f2b]' : 'hover:bg-[#B45E3D]'
+              activeTab === tab.id ? 'bg-[#e65f2b]' : 'hover:bg-[#e65f2b]'
             }`}
             onClick={() => setActiveTab(tab.id)}
           >
