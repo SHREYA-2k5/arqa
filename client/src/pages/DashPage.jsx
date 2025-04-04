@@ -148,11 +148,15 @@ const DashPage = () => {
 
       <div className="flex-1 overflow-auto">
         <div className="p-6 max-w-7xl mx-auto">
-          {isLoading && (
-            <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-            </div>
-          )}
+        {isLoading && (
+  <div className="flex justify-center items-center h-64">
+     <div className="flex space-x-2">
+      <span className="w-4 h-4 bg-[#e65f2b] rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+      <span className="w-4 h-4 bg-[#e65f2b] rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+      <span className="w-4 h-4 bg-[#e65f2b] rounded-full animate-bounce"></span>
+    </div>
+  </div>
+)}
 
           {error && (
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
