@@ -4,10 +4,11 @@ const Menu = require("../models/menu.model.js");
 
 router.get("/", async (req, res) => {
     try {
+        console.log("invoking Menu.find");
         const menuItems = await Menu.find();
         res.json(menuItems);
     } catch (error) {
-        res.status(500).json({ error: "Server error" });
+        res.status(500).json({ error: "Server error", desc: error.message });
     }
 });
 
@@ -17,7 +18,7 @@ router.get("/:id", async (req, res) => {
         if (!menuItem) return res.status(404).json({ error: "Menu item not found" });
         res.json(menuItem);
     } catch (error) {
-        res.status(500).json({ error: "Server error" });
+        res.status(500).json({ error: "Server error",desc:error });
     }
 });
 
@@ -54,7 +55,7 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-// this endpoint whenever a user submits
+// this endpoint whenever an admin submits
 router.post('/batch-bookings', async (req, res) => {
     try {
       const { updates } = req.body; 

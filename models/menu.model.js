@@ -18,7 +18,6 @@ const menuSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-//converting the _id object to just an id field
 menuSchema.virtual('id').get(function() {
     return this._id.toHexString();
 });
@@ -30,6 +29,5 @@ menuSchema.set('toJSON', {
         delete ret.__v;
     }
 });
-
 
 module.exports = mongoose.model("Menu", menuSchema);  
