@@ -3,8 +3,8 @@ import { IconMail, IconCurrencyDollar, IconClipboardList, IconPlus, IconCash } f
 const ProfilePage = () => {
   // Sample user data - replace with your actual data
   const user = {
-    name: "Hillary Tea",
-    email: "imfunny@example.com",
+    name: "God or What",
+    email: "iamthegod@example.com",
     prebookedMeals: 8,
     currency: 125.50,
     avatar: "https://avatar.iran.liara.run/public/98"
@@ -19,7 +19,7 @@ const ProfilePage = () => {
     <div className="min-h-screen bg-[#EBDFD7] flex items-center justify-center p-4">
       <div className="bg-[#F8F2EF] rounded-xl shadow-md overflow-hidden w-2xl">
         {/* Profile Header */}
-        <div className="bg-[#060606] p-6 text-center">
+        <div className="bg-[#e65f2b] p-6 text-center">
           <div className="mx-auto w-24 h-24 rounded-full border-4 border-white overflow-hidden">
             <img 
               src={user.avatar} 
@@ -66,7 +66,7 @@ const ProfilePage = () => {
           {/* Prebook Button */}
           <button 
             onClick={handlePrebookMeals}
-            className="w-full bg-[#e65f2b] hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors"
+            className="w-full bg-[#000] hover:bg-indigo-700 text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors"
           >
             <IconPlus size={20} />
             <span>Prebook Next Meal</span>
