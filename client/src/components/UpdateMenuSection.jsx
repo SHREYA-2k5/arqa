@@ -123,7 +123,7 @@ export const MenuPage = ({ bookingStats }) => {
   };
 
   return (
-    <>
+    <div className="p-4 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Menu Management</h1>
       
       {/* Add/Edit Form */}
@@ -237,7 +237,7 @@ export const MenuPage = ({ bookingStats }) => {
                         delete newIngredients[ingredient];
                         setFormData({...formData, ingredients: newIngredients});
                       }}
-                      className="px-3 py-2 bg-red-500 text-white rounded-md"
+                      className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
                     >
                       ×
                     </button>
@@ -285,29 +285,29 @@ export const MenuPage = ({ bookingStats }) => {
       </div>
 
       {/* Menu Items Table */}
-      <div className="bg-[#F8F2EF] p-6 rounded-lg shadow">
+      <div className="bg-[#F8F2EF] p-6 rounded-lg shadow overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-[#F8F2ZA]">
+          <thead className="bg-[#F8F2EF]">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Slot</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bookings</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Slot</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bookings</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-[#F8F2EF] divide-y divide-gray-200">
             {menuItems.map((item) => (
               <tr key={item._id}>
-                <td className="px-6 py-4 whitespace-nowrap">{item.item}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.desc}</td>
-                <td className="px-6 py-4 whitespace-nowrap capitalize">{item.slot}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{new Date(item.date).toLocaleDateString()}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.veg ? 'Vegetarian' : 'Non-Veg'}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.bookings}</td>
-                <td className="px-6 py-4 whitespace-nowrap space-x-2">
+                <td className="px-4 py-4 whitespace-nowrap max-w-xs truncate">{item.item}</td>
+                <td className="px-4 py-4 whitespace-nowrap max-w-xs truncate">{item.desc}</td>
+                <td className="px-4 py-4 whitespace-nowrap capitalize">{item.slot}</td>
+                <td className="px-4 py-4 whitespace-nowrap">{new Date(item.date).toLocaleDateString()}</td>
+                <td className="px-4 py-4 whitespace-nowrap">{item.veg ? 'Vegetarian' : 'Non-Veg'}</td>
+                <td className="px-4 py-4 whitespace-nowrap">{item.bookings}</td>
+                <td className="px-4 py-4 whitespace-nowrap space-x-2">
                   <button 
                     onClick={() => handleEdit(item)}
                     className="px-3 py-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
@@ -328,6 +328,6 @@ export const MenuPage = ({ bookingStats }) => {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 };
