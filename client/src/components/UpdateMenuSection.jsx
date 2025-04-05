@@ -9,7 +9,7 @@ export const MenuPage = ({ bookingStats }) => {
     desc: '',
     slot: 'breakfast',
     veg: false,
-    date: new Date().toISOString().split('T')[0], // Default to today
+    date: new Date().toISOString().split('T')[0],
     ingredients: {}
   });
 
@@ -127,15 +127,15 @@ export const MenuPage = ({ bookingStats }) => {
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Menu Management</h1>
       
       {/* Add/Edit Form */}
-      <div className="bg-[#F8F2EF] p-6 rounded-lg shadow mb-6">
-        <h2 className="text-xl font-semibold mb-4">
+      <div className="bg-[#F8F2EF] p-6 rounded-lg shadow-lg mb-6 border border-orange-100">
+        <h2 className="text-xl font-semibold mb-4 text-orange-700">
           {editingItem ? 'Edit Menu Item' : 'Add New Menu Item'}
         </h2>
         {isLoading && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <div className="flex items-center space-x-2">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
                 <span>Saving changes...</span>
               </div>
             </div>
@@ -150,7 +150,7 @@ export const MenuPage = ({ bookingStats }) => {
                 name="item"
                 value={formData.item}
                 onChange={handleInputChange}
-                className="w-full p-2 border rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500 focus:outline-none hover:border-orange-300 transition-colors"
                 required
               />
             </div>
@@ -161,7 +161,7 @@ export const MenuPage = ({ bookingStats }) => {
                 name="desc"
                 value={formData.desc}
                 onChange={handleInputChange}
-                className="w-full p-2 border rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500 focus:outline-none hover:border-orange-300 transition-colors"
                 required
               />
             </div>
@@ -171,7 +171,7 @@ export const MenuPage = ({ bookingStats }) => {
                 name="slot"
                 value={formData.slot}
                 onChange={handleInputChange}
-                className="w-full p-2 border rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500 focus:outline-none hover:border-orange-300 transition-colors"
                 required
               >
                 <option value="breakfast">Breakfast</option>
@@ -187,7 +187,7 @@ export const MenuPage = ({ bookingStats }) => {
                 name="date"
                 value={formData.date}
                 onChange={handleInputChange}
-                className="w-full p-2 border rounded-md"
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500 focus:outline-none hover:border-orange-300 transition-colors"
                 required
               />
             </div>
@@ -199,7 +199,7 @@ export const MenuPage = ({ bookingStats }) => {
                   name="veg"
                   checked={formData.veg}
                   onChange={handleInputChange}
-                  className="mr-2"
+                  className="mr-2 h-4 w-4 text-orange-500 focus:ring-orange-500 border-gray-300 rounded"
                 />
                 <span>Vegetarian</span>
               </div>
@@ -218,14 +218,14 @@ export const MenuPage = ({ bookingStats }) => {
                         newIngredients[e.target.value] = quantity;
                         setFormData({...formData, ingredients: newIngredients});
                       }}
-                      className="flex-1 p-2 border rounded-md"
+                      className="flex-1 p-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500 focus:outline-none hover:border-orange-300 transition-colors"
                       placeholder="Ingredient"
                     />
                     <input
                       type="number"
                       value={quantity}
                       onChange={(e) => handleIngredientChange(ingredient, e.target.value)}
-                      className="w-24 p-2 border rounded-md"
+                      className="w-24 p-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500 focus:outline-none hover:border-orange-300 transition-colors"
                       placeholder="Quantity"
                       min="0"
                       step="0.1"
@@ -237,7 +237,7 @@ export const MenuPage = ({ bookingStats }) => {
                         delete newIngredients[ingredient];
                         setFormData({...formData, ingredients: newIngredients});
                       }}
-                      className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                      className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
                     >
                       ×
                     </button>
@@ -246,7 +246,7 @@ export const MenuPage = ({ bookingStats }) => {
                 <button
                   type="button"
                   onClick={() => handleIngredientChange('New Ingredient', 1)}
-                  className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+                  className="px-4 py-2 bg-orange-100 text-orange-700 rounded-md hover:bg-orange-200 transition-colors"
                 >
                   + Add Ingredient
                 </button>
@@ -256,7 +256,7 @@ export const MenuPage = ({ bookingStats }) => {
           <div className="flex space-x-2">
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
               disabled={isLoading}
             >
               {editingItem ? 'Update Item' : 'Add Item'}
@@ -275,7 +275,7 @@ export const MenuPage = ({ bookingStats }) => {
                     ingredients: {}
                   });
                 }}
-                className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
               >
                 Cancel
               </button>
@@ -285,22 +285,22 @@ export const MenuPage = ({ bookingStats }) => {
       </div>
 
       {/* Menu Items Table */}
-      <div className="bg-[#F8F2EF] p-6 rounded-lg shadow overflow-x-auto">
+      <div className="bg-[#F8F2EF] p-6 rounded-lg shadow-lg overflow-x-auto border border-orange-100">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-[#F8F2EF]">
+          <thead className="bg-orange-50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Slot</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bookings</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Item</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Description</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Slot</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Date</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Type</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Bookings</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-orange-700 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-[#F8F2EF] divide-y divide-gray-200">
             {menuItems.map((item) => (
-              <tr key={item._id}>
+              <tr key={item._id} className="hover:bg-orange-50 transition-colors">
                 <td className="px-4 py-4 whitespace-nowrap max-w-xs truncate">{item.item}</td>
                 <td className="px-4 py-4 whitespace-nowrap max-w-xs truncate">{item.desc}</td>
                 <td className="px-4 py-4 whitespace-nowrap capitalize">{item.slot}</td>
@@ -310,14 +310,14 @@ export const MenuPage = ({ bookingStats }) => {
                 <td className="px-4 py-4 whitespace-nowrap space-x-2">
                   <button 
                     onClick={() => handleEdit(item)}
-                    className="px-3 py-1 bg-blue-100 text-blue-600 rounded hover:bg-blue-200"
+                    className="px-3 py-1 bg-orange-100 text-orange-600 rounded hover:bg-orange-200 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-1"
                     disabled={isLoading}
                   >
                     Edit
                   </button>
                   <button 
                     onClick={() => deleteMenuItem(item._id)}
-                    className="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200"
+                    className="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
                     disabled={isLoading}
                   >
                     Delete
