@@ -10,6 +10,7 @@ console.log("GEMINI_KEY", process.env.GEMINI_KEY);
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
+//get all menu items
 router.get("/", async (req, res) => {
     try {
         console.log("invoking Menu.find");
@@ -20,6 +21,7 @@ router.get("/", async (req, res) => {
     }
 });
 
+//add menu
 router.post("/", async (req, res) => {
     try {
         const { item, desc, veg, slot, date } = req.body;
@@ -63,14 +65,31 @@ router.patch('/book', async (req, res) => {
   }
 });
 
+//delete by ID
 router.delete("/:id", async (req, res) => {
-    try {
-        const deletedMenu = await Menu.findByIdAndDelete(req.params.id);
-        if (!deletedMenu) return res.status(404).json({ error: "Menu item not found" });
-        res.json({ message: "Menu item deleted successfully" });
-    } catch (error) {
-        res.status(500).json({ error: "Server error" });
-    }
+  try {
+      console.log("Deleting on ", req.params.id);
+      const objectId = new mongoose.Types.ObjectId(req.params.id);
+      const deletedMenu = await Menu.findByIdAndDelete(objectId);
+      if (!deletedMenu) {
+          return res.status(404).json({ 
+              success: false,
+              message: "Menu item not found" 
+          });
+      }
+      res.json({ 
+          success: true,
+          message: "Menu item deleted successfully",
+          deletedId: deletedMenu._id
+      });
+  } catch (error) {
+      console.error("Delete error:", error);
+      res.status(500).json({ 
+          success: false,
+          message: "Server error during deletion",
+          error: error.message 
+      });
+  }
 });
 
 // For bulk posting my data cause im lazy lol

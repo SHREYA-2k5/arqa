@@ -4,6 +4,7 @@ export const MenuPage = ({ bookingStats }) => {
   const [menuItems, setMenuItems] = useState(bookingStats);
   const [editingItem, setEditingItem] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
   const [formData, setFormData] = useState({
     item: '',
     desc: '',
@@ -59,20 +60,40 @@ export const MenuPage = ({ bookingStats }) => {
       setIsLoading(false);
     }
   };
-
+  
   const deleteMenuItem = async (id) => {
-    setIsLoading(true);
-    try {
-      await fetch(`http://localhost:8080/api/menu/${id}`, {
-        method: 'DELETE',
-      });
-      setMenuItems(menuItems.filter(item => item._id !== id));
-    } catch (error) {
-      console.error('Error deleting menu item:', error);
-    } finally {
-      setIsLoading(false);
+    if (!window.confirm('Are you sure you want to delete this item?')) {
+        return;
     }
-  };
+
+    setIsLoading(true);
+    setDeleteError(null);
+    
+    try {
+      console.log("Tryingto send this id from client", id);
+      
+        const response = await fetch(`http://localhost:8080/api/menu/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to delete item');
+        }
+        setMenuItems(prevItems => prevItems.filter(item => item.id !== id));
+        console.log('Delete successful:', data.message);
+    } catch (error) {
+        console.error('Delete failed:', error);
+        setDeleteError(error.message);
+        alert(`Delete failed: ${error.message}`);
+    } finally {
+        setIsLoading(false);
+    }
+};
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -300,7 +321,7 @@ export const MenuPage = ({ bookingStats }) => {
           </thead>
           <tbody className="bg-[#F8F2EF] divide-y divide-gray-200">
             {menuItems.map((item) => (
-              <tr key={item._id} className="hover:bg-orange-50 transition-colors">
+              <tr key={item.id} className="hover:bg-orange-50 transition-colors">
                 <td className="px-4 py-4 whitespace-nowrap max-w-xs truncate">{item.item}</td>
                 <td className="px-4 py-4 whitespace-nowrap max-w-xs truncate">{item.desc}</td>
                 <td className="px-4 py-4 whitespace-nowrap capitalize">{item.slot}</td>
@@ -316,7 +337,7 @@ export const MenuPage = ({ bookingStats }) => {
                     Edit
                   </button>
                   <button 
-                    onClick={() => deleteMenuItem(item._id)}
+                    onClick={() => deleteMenuItem(item.id)}
                     className="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
                     disabled={isLoading}
                   >
@@ -327,6 +348,11 @@ export const MenuPage = ({ bookingStats }) => {
             ))}
           </tbody>
         </table>
+        {deleteError && (
+        <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+            Error: {deleteError}
+        </div>
+        )}
       </div>
     </div>
   );
