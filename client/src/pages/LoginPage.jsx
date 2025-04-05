@@ -7,7 +7,7 @@ const LoginPage = () => {
     { text: "ARQA में आपका स्वागत है" }, // Hindi
     { text: "ARQA க்கு வரவேற்கிறோம்" }, // Tamil
     { text: "ARQA కు స్వాగతం" }, // Telugu
-    { text: "ARQA ಗೆ ಸುಸ್ವಾಗತ" }, // Kannada
+    { text: "ARQA ಗೆ ಸುಸ్వಾಗತ" }, // Kannada
     { text: "ARQA സ്വാഗതം" }, // Malayalam
     { text: "ARQA ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ" }, // Punjabi
     { text: "ARQA তে স্বাগতম" } // Bengali
@@ -73,8 +73,8 @@ const LoginPage = () => {
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
 
-        {/* Google Login with original multi-colored logo */}
-        <button className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-lg font-medium transition duration-200">
+        {/* Google Login */}
+        <button className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-lg font-medium transition duration-200 mb-4">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
             <g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)">
               <path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"/>
@@ -84,6 +84,15 @@ const LoginPage = () => {
             </g>
           </svg>
           Continue with Google
+        </button>
+
+        {/* Special NGO Registration Button */}
+        <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition duration-200 flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
+            <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
+          </svg>
+          NGO Registration
         </button>
 
         {/* Footer Links */}

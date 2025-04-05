@@ -6,6 +6,7 @@ import DashPage from './pages/DashPage';
 import ProfilePage from './pages/ProfilePage';
 import LoginPage from './pages/LoginPage';
 import Connect from './pages/connect';
+import NGORegistrationForm from './pages/NGORegistrationForm';
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
               <Route path="/dash" element={<DashPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/ngoreg" element={<NGORegistrationForm/>} />
               <Route path="/Connect" element={<Connect/>} />
+             
 
             </Routes>
           </div>
