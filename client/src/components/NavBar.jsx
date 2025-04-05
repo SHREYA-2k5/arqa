@@ -103,13 +103,9 @@ function NavBar() {
             </div>
           </Link>
         )}
-        <button
-          onClick={toggleMobileMenu}
-          className="text-gray-700 hover:text-[#E65F2B] focus:outline-none"
-        >
-          {mobileMenuOpen ? <IconX size={24} /> : <IconMenu2 size={24} />}
-        </button>
+        
       </div>
+      
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
