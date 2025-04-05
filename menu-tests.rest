@@ -217,3 +217,12 @@ Content-Type: {application/json}
     }
   ]
 }
+
+## GEMINI TESTS
+### Generate Full Menu Report (GET)
+GET http://localhost:8080/api/menu/report
+Content-Type: application/json
+
+### Test Empty Database Scenario
+GET http://localhost:8080/api/report
+Content-Type: application/json
