@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Sidebar } from '../components/DashSidebar';
-import { DashboardPage, IngredientsPage, ReportsPage } from '../components/DashSections';
+import { DashboardPage, IngredientsPage} from '../components/DashSections';
 import { MenuPage } from '../components/UpdateMenuSection';
+import { ReportSection } from '../components/ReportSection';
 import { dummyBookingData } from './tempdata';
 import Connect from './connect';
 
@@ -186,11 +187,7 @@ const DashPage = () => {
             />
           )}
           {!isLoading && activeTab === 'reports' && (
-            <ReportsPage 
-              leastPopular={leastPopular}
-              mostPopular={mostPopular}
-              bookingStats={bookingStats}
-            />
+            <ReportSection />
           )}
           {!isLoading && activeTab === 'donate' && (
             <Connect/>

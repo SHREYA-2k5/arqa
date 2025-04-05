@@ -2,9 +2,13 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require('mongoose');
 const Menu = require("../models/menu.model.js");
+const dotenv = require("dotenv");
+dotenv.config({ path: './.env.local' });
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI('AIzaSyCeB43KWVDxx8Qmnt1qkqGl1pPpKXJOlXc');
+console.log("GEMINI_KEY", process.env.GEMINI_KEY);
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
 
 router.get("/", async (req, res) => {
     try {

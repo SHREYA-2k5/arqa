@@ -6,6 +6,8 @@ const userRoutes = require('./routes/userRoutes.js');
 const menuRoutes = require('./routes/menuRoutes.js');
 
 dotenv.config({ path: './.env.local' });
+console.log("MONGO_URI", process.env.MONGO_URI);
+
 connectToDb();
 
 const app = express();

@@ -45,7 +45,6 @@ const ProfilePage = () => {
           <p className="text-white/80 mt-1">{currentUser.role}</p>
         </div>
         
-        {/* Profile Details */}
         <div className="p-6 space-y-6">
           {/* Email */}
           <div className="flex items-center space-x-3">
