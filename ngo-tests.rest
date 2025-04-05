@@ -15,3 +15,87 @@ GET {{baseUrl}}/
 
 ### 3. Get Specific Organization (replace ID)
 GET {{baseUrl}}/67f1428a70519c340f2f3d78
+
+
+
+
+
+### Create Organization 1
+POST http://localhost:3000/api/organizations
+Content-Type: application/json
+
+{
+  "organizationName": "Sunrise Foundation",
+  "email": "contact@sunrisefoundation.org",
+  "phone": "+91-9876543210",
+  "address": "123 Gandhi Street, Kilambakkam",
+  "city": "Chennai",
+  "state": "Tamil Nadu",
+  "country": "India",
+  "registrationNumber": "TN12345678",
+  "organizationType": "Charitable Trust"
+}
+
+### Create Organization 2
+POST http://localhost:3000/api/organizations
+Content-Type: application/json
+
+{
+  "organizationName": "Greenworld Society",
+  "email": "info@greenworldsociety.org",
+  "phone": "+91-8765432109",
+  "address": "456 Nehru Avenue, Kilambakkam",
+  "city": "Chennai",
+  "state": "Tamil Nadu",
+  "country": "India",
+  "registrationNumber": "TN87654321",
+  "organizationType": "Society"
+}
+
+### Create Organization 3
+POST http://localhost:3000/api/organizations
+Content-Type: application/json
+
+{
+  "organizationName": "Education For All",
+  "email": "contact@educationforall.edu",
+  "phone": "+91-7654321098",
+  "address": "789 Knowledge Road, Kilambakkam",
+  "city": "Chennai",
+  "state": "Tamil Nadu",
+  "country": "India",
+  "registrationNumber": "TN22334455",
+  "organizationType": "Educational Institution"
+}
+
+### Create Organization 4
+POST http://localhost:3000/api/organizations
+Content-Type: application/json
+
+{
+  "organizationName": "Global Care Initiative",
+  "email": "info@globalcare.org",
+  "phone": "+91-6543210987",
+  "address": "10 Helping Hand Lane, Kilambakkam",
+  "city": "Chennai",
+  "state": "Tamil Nadu",
+  "country": "India",
+  "registrationNumber": "TN789012345",
+  "organizationType": "Non-Profit Company"
+}
+
+### Create Organization 5
+POST http://localhost:3000/api/organizations
+Content-Type: application/json
+
+{
+  "organizationName": "Divine Community Center",
+  "email": "contact@divinecommunitycenter.org",
+  "phone": "+91-5432109876",
+  "address": "321 Faith Street, Kilambakkam",
+  "city": "Chennai",
+  "state": "Tamil Nadu",
+  "country": "India",
+  "registrationNumber": "TN567890123",
+  "organizationType": "Religious Organization"
+}
