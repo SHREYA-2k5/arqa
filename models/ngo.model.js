@@ -10,15 +10,11 @@ const organizationSchema = new Schema({
   state: String,
   country: String,
   registrationNumber: String,
-  website: String,
-  contactPersonPosition: String,
-  contactPerson: String,
   organizationType: {
     type: String,
     enum: ["Charitable Trust", "Society", "Non-Profit Company", "Religious Organization", "Educational Institution", "Other"],
     required: true
   },
-  description: { type: String, maxlength: 2000 },
 }, { timestamps: true });
 
 organizationSchema.virtual('id').get(function() {

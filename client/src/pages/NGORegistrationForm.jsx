@@ -85,13 +85,38 @@ const NGORegistrationForm = ({ onClose }) => {
     setCurrentStep(prev => prev - 1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      console.log('NGO Registration Submitted:', formData);
+    try {
+      // Prepare the data according to the schema
+      const dataToSend = {
+        organizationName: formData.organizationName,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        country: formData.country || 'India', 
+        registrationNumber: formData.registrationNumber,
+        organizationType: formData.organizationType
+      };
+  
+      const response = await fetch('http://localhost:8080/api/orgs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSend),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+      console.log('Registration successful:', result);
       setIsSubmitting(false);
       setIsSuccess(true);
       
@@ -100,7 +125,11 @@ const NGORegistrationForm = ({ onClose }) => {
         setIsSuccess(false);
         onClose();
       }, 3000);
-    }, 2000);
+    } catch (error) {
+      console.error('Registration failed:', error);
+      setIsSubmitting(false);
+      alert('Registration failed. Please try again.');
+    }
   };
 
   return (
