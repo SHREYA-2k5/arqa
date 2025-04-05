@@ -8,7 +8,7 @@ const NGORegistrationForm = ({ onClose }) => {
     address: '',
     city: '',
     state: '',
-    country: '',
+    area: '',
     registrationNumber: '',
     website: '',
     contactPerson: '',
@@ -340,6 +340,17 @@ const NGORegistrationForm = ({ onClose }) => {
                         required
                       />
                     </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Area*</label>
+                    <input
+                      type="text"
+                      name="Area"
+                      value={formData.area}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                      required/>
+                  </div>
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">State*</label>
@@ -352,18 +363,6 @@ const NGORegistrationForm = ({ onClose }) => {
                         required
                       />
                     </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Country*</label>
-                    <input
-                      type="text"
-                      name="country"
-                      value={formData.country}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-                      required
-                    />
                   </div>
 
                   <div className="pt-4 flex justify-between">
