@@ -1,37 +1,98 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { IconLock, IconClock, IconArrowRight, IconChecklist } from '@tabler/icons-react';
 
 const Selection = ({
-  mealsBySlot,
-  selections,
   activeTab,
   setActiveTab,
-  handleOptInChange,
-  handlePortionChange,
-  handleSubmit,
-  handleNotesChange,
-  cutoffTimes 
+  cutoffTimes,
+  onSubmit,
+  menuItems,
+  selections,
+  setSelections,
+  isLoading
 }) => {
+
+  const mealsBySlot = {
+    breakfast: menuItems.filter(item => item.slot === 'breakfast'),
+    lunch: menuItems.filter(item => item.slot === 'lunch'),
+    snack: menuItems.filter(item => item.slot === 'snack'),
+    dinner: menuItems.filter(item => item.slot === 'dinner')
+  };
+
   const isSlotLocked = (slot) => {
     const now = new Date();
-    const [time, period] = cutoffTimes[slot].split(' ');
-    const [hours, minutes] = time.split(':').map(Number);
-    
-    let cutoff = new Date();
-    if(slot === 'breakfast' && period.includes('previous')) {
-      cutoff.setDate(cutoff.getDate() - 1);
-    }
+    const cutoffHHMM = cutoffTimes[slot];
+    const hours = Math.floor(cutoffHHMM / 100);
+    const minutes = cutoffHHMM % 100;
+    const cutoff = new Date();
     cutoff.setHours(hours, minutes, 0, 0);
     return now > cutoff;
   };
-  
-  const handleSelectAll = () => {
-    mealsBySlot[activeTab].forEach(item => {
-      if(!isSlotLocked(activeTab)) {
-        handleOptInChange(item.id);
-      }
-    });
+
+  const handleOptInChange = (itemId) => {
+    setSelections(prev => ({
+      ...prev,
+      [itemId]: {
+        ...prev[itemId],
+        optedIn: !prev[itemId].optedIn,
+        portion: !prev[itemId].optedIn ? 1 : 0,
+      },
+    }));
   };
+
+  const handlePortionChange = (itemId, value) => {
+    if (value < 0) return;
+    setSelections(prev => ({
+      ...prev,
+      [itemId]: {
+        ...prev[itemId],
+        portion: value,
+      },
+    }));
+  };
+
+  const handleNotesChange = (itemId, notes) => {
+    setSelections(prev => ({
+      ...prev,
+      [itemId]: {
+        ...prev[itemId],
+        notes,
+      },
+    }));
+  };
+
+  const handleSelectAll = () => {
+    if (!isSlotLocked(activeTab)) {
+      const newSelections = { ...selections };
+      mealsBySlot[activeTab].forEach(item => {
+        newSelections[item.id] = {
+          ...newSelections[item.id],
+          optedIn: true,
+          portion: 1
+        };
+      });
+      setSelections(newSelections);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const selectedItems = Object.entries(selections)
+      .filter(([_, selection]) => selection.optedIn && selection.portion > 0)
+      .map(([itemId, selection]) => ({
+        itemId,
+        portions: selection.portion
+      }));
+    onSubmit(selectedItems);
+  };
+
+  if (isLoading) {
+    return (
+      <div className="w-2/3 overflow-y-auto p-8 flex items-center justify-center">
+        <div className="text-xl">Loading menu options...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-2/3 overflow-y-auto p-8">
@@ -91,13 +152,14 @@ const Selection = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {mealsBySlot[activeTab].map(item => {
                 const locked = isSlotLocked(activeTab);
-                const maxPortions = 3; 
+                const maxPortions = 3;
+                const itemSelection = selections[item.id] || { optedIn: false, portion: 0, notes: '' };
 
                 return (
                   <div 
                     key={item.id} 
                     className={`p-6 border rounded-xl transition-all duration-200 relative
-                      ${selections[item.id].optedIn 
+                      ${itemSelection.optedIn 
                         ? 'ring-2 ring-[#e65f2b] bg-[#FFE9E0] border-transparent' 
                         : 'border-gray-100 hover:shadow-md hover:border-blue-100'}
                       ${locked ? 'opacity-75 pointer-events-none' : ''}`}
@@ -122,15 +184,15 @@ const Selection = ({
                         
                         <p className="text-gray-600 mb-4">{item.desc}</p>
                         
-                        {selections[item.id].optedIn && (
+                        {itemSelection.optedIn && (
                           <div className="space-y-4">
                             <div className="flex items-center">
                               <label className="mr-3 text-gray-700 font-medium">Portions:</label>
                               <div className="flex items-center space-x-2">
                                 <button
                                   type="button"
-                                  onClick={() => handlePortionChange(item.id, selections[item.id].portion - 1)}
-                                  disabled={selections[item.id].portion <= 1}
+                                  onClick={() => handlePortionChange(item.id, itemSelection.portion - 1)}
+                                  disabled={itemSelection.portion <= 1}
                                   className="px-3 py-1 bg-gray-100 rounded-lg disabled:opacity-40 hover:bg-gray-200 transition-colors
                                     text-gray-700 font-medium"
                                   aria-label={`Decrease portions for ${item.item}`}
@@ -138,12 +200,12 @@ const Selection = ({
                                   −
                                 </button>
                                 <span className="w-10 text-center text-lg font-medium text-gray-800">
-                                  {selections[item.id].portion}
+                                  {itemSelection.portion}
                                 </span>
                                 <button
                                   type="button"
-                                  onClick={() => handlePortionChange(item.id, selections[item.id].portion + 1)}
-                                  disabled={selections[item.id].portion >= maxPortions}
+                                  onClick={() => handlePortionChange(item.id, itemSelection.portion + 1)}
+                                  disabled={itemSelection.portion >= maxPortions}
                                   className="px-3 py-1 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors
                                     text-gray-700 font-medium disabled:opacity-40"
                                   aria-label={`Increase portions for ${item.item}`}
@@ -161,7 +223,7 @@ const Selection = ({
                                 Special Requests:
                               </label>
                               <textarea
-                                value={selections[item.id].notes}
+                                value={itemSelection.notes}
                                 onChange={(e) => handleNotesChange(item.id, e.target.value)}
                                 className="w-full p-2 border rounded-lg text-sm"
                                 placeholder="Allergies, preferences..."
@@ -176,7 +238,7 @@ const Selection = ({
                       <label className="inline-flex items-center cursor-pointer">
                         <input
                           type="checkbox"
-                          checked={selections[item.id].optedIn}
+                          checked={itemSelection.optedIn}
                           onChange={() => handleOptInChange(item.id)}
                           className="sr-only peer"
                           disabled={locked}

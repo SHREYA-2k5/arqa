@@ -175,3 +175,45 @@ Content-Type: application/json
     }
   }
 ]
+
+
+### BOOKING TESTS START HERE
+
+### Test 1: Successful Booking Update
+PATCH {{baseUrl}}/book
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "itemId": "507f1f77bcf86cd799439011",
+      "portions": 2
+    },
+    {
+      "itemId": "507f1f77bcf86cd799439012", 
+      "portions": 1
+    }
+  ]
+}
+
+### Test 2: Empty Items Array (Should Succeed with 0 updates)
+PATCH {{baseUrl}}/book
+Content-Type: {application/json}
+
+{
+  "items": []
+}
+
+
+### Test 5: Negative Portions (Should Fail Validation)
+PATCH {{baseUrl}}/book
+Content-Type: {application/json}
+
+{
+  "items": [
+    {
+      "itemId": "507f1f77bcf86cd799439011",
+      "portions": -1
+    }
+  ]
+}

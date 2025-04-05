@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require('mongoose');
 const Menu = require("../models/menu.model.js");
 
 router.get("/", async (req, res) => {
@@ -33,17 +34,37 @@ router.post("/", async (req, res) => {
     }
 });
 
-// don't really need to update a menu item
-/* router.put("/:id", async (req, res) => {
-    try {
-        const updatedMenu = await Menu.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!updatedMenu) return res.status(404).json({ error: "Menu item not found" });
-        res.json(updatedMenu);
-    } catch (error) {
-        res.status(400).json({ error: "Invalid update data" });
+// PATCH sends over users booking
+router.patch('/book', async (req, res) => {
+  try {
+    const { items } = req.body;
+
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ error: "Items must be an array" });
     }
+
+    // Atomic $inc updates (no transaction needed)
+    const bulkOps = items.map(item => ({
+      updateOne: {
+        filter: { _id: item.itemId },
+        update: { $inc: { bookings: item.portions } }
+      }
+    }));
+    const result = await Menu.bulkWrite(bulkOps);
+    res.json({
+      success: true,
+      updatedCount: result.modifiedCount
+    });
+
+  } catch (error) {
+    console.error('Update failed:', error);
+    res.status(500).json({
+      success: false,
+      error: "Update failed",
+      details: error.message
+    });
+  }
 });
- */
 
 router.delete("/:id", async (req, res) => {
     try {
@@ -54,33 +75,6 @@ router.delete("/:id", async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 });
-
-// this endpoint whenever an admin submits
-router.post('/batch-bookings', async (req, res) => {
-    try {
-      const { updates } = req.body; 
-      
-      if (!Array.isArray(updates)) {
-        return res.status(400).json({ error: "Updates must be an array" });
-      }
-  
-      const bulkOps = updates.map(({ itemId, change }) => ({
-        updateOne: {
-          filter: { _id: itemId },
-          update: { $inc: { bookings: change } } // +1 or -1
-        }
-      }));
-  
-      const result = await Menu.bulkWrite(bulkOps);
-      
-      res.json({
-        matched: result.matchedCount,
-        modified: result.modifiedCount
-      });
-    } catch (error) {
-      res.status(500).json({ error: "Batch update failed" });
-    }
-  });
 
 // For bulk posting my data cause im lazy lol
 router.post('/bulk', async (req, res) => {
