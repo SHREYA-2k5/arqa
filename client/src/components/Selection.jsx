@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { IconLock, IconClock, IconArrowRight, IconChecklist } from '@tabler/icons-react';
 
 const Selection = ({
@@ -40,14 +40,17 @@ const Selection = ({
       });
     }
   };
-/* 
-  if (isLoading) {
-    return (
-      <div className="w-2/3 overflow-y-auto p-8 flex items-center justify-center">
-        <div className="text-xl">Loading menu options...</div>
-      </div>
-    );
-  } */
+
+  const handleCardClick = (itemId, e) => {
+    // Check if the click came from an element that should not trigger the toggle
+    if (e.target.closest('button, textarea, label')) {
+      return;
+    }
+    if (!isSlotLocked(activeTab)) {
+      const currentSelection = selections[itemId] || { optedIn: false };
+      handleOptInChange(itemId, !currentSelection.optedIn);
+    }
+  };
 
   return (
     <div className="w-2/3 overflow-y-auto p-8">
@@ -113,11 +116,12 @@ const Selection = ({
                 return (
                   <div 
                     key={item.id} 
+                    onClick={(e) => handleCardClick(item.id, e)}
                     className={`p-6 border rounded-xl transition-all duration-200 relative
                       ${itemSelection.optedIn 
                         ? 'ring-2 ring-[#e65f2b] bg-[#FFE9E0] border-transparent' 
                         : 'border-gray-100 hover:shadow-md hover:border-blue-100'}
-                      ${locked ? 'opacity-75 pointer-events-none' : ''}`}
+                      ${locked ? 'opacity-75 pointer-events-none' : 'cursor-pointer'}`}
                   >
                     {locked && (
                       <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded-xl">
@@ -146,7 +150,10 @@ const Selection = ({
                               <div className="flex items-center space-x-2">
                                 <button
                                   type="button"
-                                  onClick={() => handlePortionChange(item.id, itemSelection.portion - 1)}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handlePortionChange(item.id, itemSelection.portion - 1);
+                                  }}
                                   disabled={itemSelection.portion <= 1}
                                   className="px-3 py-1 bg-gray-100 rounded-lg disabled:opacity-40 hover:bg-gray-200 transition-colors
                                     text-gray-700 font-medium"
@@ -159,7 +166,10 @@ const Selection = ({
                                 </span>
                                 <button
                                   type="button"
-                                  onClick={() => handlePortionChange(item.id, itemSelection.portion + 1)}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handlePortionChange(item.id, itemSelection.portion + 1);
+                                  }}
                                   disabled={itemSelection.portion >= maxPortions}
                                   className="px-3 py-1 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors
                                     text-gray-700 font-medium disabled:opacity-40"
@@ -180,6 +190,7 @@ const Selection = ({
                               <textarea
                                 value={itemSelection.notes}
                                 onChange={(e) => handleNotesChange(item.id, e.target.value)}
+                                onClick={(e) => e.stopPropagation()}
                                 className="w-full p-2 border rounded-lg text-sm"
                                 placeholder="Allergies, preferences..."
                                 rows={2}
@@ -190,14 +201,16 @@ const Selection = ({
                         )}
                       </div>
                       
-                      <label className="inline-flex items-center cursor-pointer">
+                      <label className="inline-flex items-center">
                         <input
                           type="checkbox"
                           checked={itemSelection.optedIn}
-                          onChange={() => handleOptInChange(item.id)}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            handleOptInChange(item.id, e.target.checked);
+                          }}
                           className="sr-only peer"
                           disabled={locked}
-                          aria-label={`Toggle ${item.item} selection`}
                         />
                         <div className="relative w-12 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer 
                           peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] 
