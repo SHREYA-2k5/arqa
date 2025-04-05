@@ -42,7 +42,6 @@ const Selection = ({
   };
 
   const handleCardClick = (itemId, e) => {
-    // Check if the click came from an element that should not trigger the toggle
     if (e.target.closest('button, textarea, label')) {
       return;
     }
@@ -138,6 +137,9 @@ const Selection = ({
                               ? 'bg-green-100 text-green-800' 
                               : 'bg-red-100 text-red-800'}`}>
                             {item.veg ? 'Vegetarian' : 'Non-Vegetarian'}
+                          </span>
+                          <span className={`px-3 py-1 text-xs font-medium rounded-full bg-violet-100 text-violet-800`}>
+                            {`${item.cal} kcal`}
                           </span>
                         </div>
                         

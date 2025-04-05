@@ -11,6 +11,7 @@
         },
         date: { type: Date, required: true },
         bookings : {type: Number, default: 0},
+        cal : Number,
         ingredients: {
             type: Map,  
             of: Number, 

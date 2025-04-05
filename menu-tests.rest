@@ -46,6 +46,7 @@ Content-Type: application/json
     "slot": "breakfast",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 120,
+    "cal": 320,
     "ingredients": {
       "rava": 15,
       "vegetables": 5,
@@ -59,6 +60,7 @@ Content-Type: application/json
     "slot": "breakfast",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 85,
+    "cal": 90,
     "ingredients": {
       "eggs": 85,
       "oil": 1
@@ -71,6 +73,7 @@ Content-Type: application/json
     "slot": "lunch",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 200,
+    "cal": 205,
     "ingredients": {
       "rice": 30
     }
@@ -82,6 +85,7 @@ Content-Type: application/json
     "slot": "lunch",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 180,
+    "cal": 180,
     "ingredients": {
       "lentils": 10,
       "mango": 5,
@@ -95,6 +99,7 @@ Content-Type: application/json
     "slot": "lunch",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 90,
+    "cal": 120,
     "ingredients": {
       "cabbage": 10,
       "coconut": 2
@@ -107,6 +112,7 @@ Content-Type: application/json
     "slot": "lunch",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 150,
+    "cal": 250,
     "ingredients": {
       "soya": 8,
       "tomatoes": 5,
@@ -120,6 +126,7 @@ Content-Type: application/json
     "slot": "lunch",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 220,
+    "cal": 120,
     "ingredients": {
       "wheat": 25,
       "oil": 3
@@ -132,6 +139,7 @@ Content-Type: application/json
     "slot": "snack",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 70,
+    "cal": 200,
     "ingredients": {
       "chickpeas": 7,
       "coconut": 1
@@ -144,6 +152,7 @@ Content-Type: application/json
     "slot": "dinner",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 160,
+    "cal": 350,
     "ingredients": {
       "maida": 20,
       "oil": 5
@@ -156,6 +165,7 @@ Content-Type: application/json
     "slot": "dinner",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 110,
+    "cal": 220,
     "ingredients": {
       "vegetables": 12,
       "coconut": 3
@@ -168,6 +178,7 @@ Content-Type: application/json
     "slot": "dinner",
     "date": "2023-06-15T00:00:00.000Z",
     "bookings": 95,
+    "cal": 280,
     "ingredients": {
       "chicken": 15,
       "onions": 5,

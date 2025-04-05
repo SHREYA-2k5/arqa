@@ -93,6 +93,7 @@ export const menuItems = [
       item: 'Parotta',
       desc: 'Layered and oily parotta to eat with your gravy',
       veg: true,
+      cal: 120,
       slot: 'dinner',
       date: new Date('2023-06-15')
     },
