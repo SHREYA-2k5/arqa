@@ -85,10 +85,15 @@ export const ReportSection = () => {
         )}
 
         {loading && !report && (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
-          </div>
+           <div className="flex justify-center items-center h-64 bg-white rounded-lg shadow-md">
+           <div className="flex space-x-2">
+             <span className="w-4 h-4 bg-orange-500 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+             <span className="w-4 h-4 bg-orange-500 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+             <span className="w-4 h-4 bg-orange-500 rounded-full animate-bounce"></span>
+           </div>
+         </div>
         )}
+
 
         {report?.data?.length > 0 && (
           <>
