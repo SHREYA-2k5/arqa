@@ -228,7 +228,7 @@ const DashPage = () => {
           
           {/* Donate Section */}
           {!isLoading && activeTab === 'donate' && (
-            <div className="bg-white rounded-lg shadow-md p-6 mb-6 border border-orange-100">
+            <div >
               <Connect/>
             </div>
           )}
