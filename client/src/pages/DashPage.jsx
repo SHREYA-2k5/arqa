@@ -235,7 +235,7 @@ const DashPage = () => {
           
           {/* Footer */}
           <div className="text-center text-sm text-orange-400 mt-6">
-            <p>© 2025 Dashboard • All Rights Reserved</p>
+            <p>© 2025 Arqa • All Rights Reserved</p>
           </div>
         </div>
       </div>

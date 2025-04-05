@@ -20,7 +20,7 @@ const FoodDonationForm = () => {
 
   // UI states
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState(null); // null | 'created' | 'accepted' | 'completed'
+  const [submissionStatus, setSubmissionStatus] = useState(null); 
   const [currentStage, setCurrentStage] = useState(0);
   const [selectedNGO, setSelectedNGO] = useState(null);
 

@@ -92,7 +92,7 @@ function HomePage() {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-          <p>&copy; {new Date().getFullYear()} Save & Share. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Arqa. All rights reserved.</p>
         </div>
       </footer>
     </div>

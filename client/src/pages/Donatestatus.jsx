@@ -11,7 +11,7 @@ const DonationStatus = ({ formData, currentStage, submissionStatus, selectedNGO,
       name: "Feed The Hunger Foundation",
       email: "contact@feedthehunger.org",
       phone: "+91 9876543210",
-      address: "123 Service Road, Mumbai",
+      address: "123 Service Road, Bangalore",
       accepted: true
     },
     {
