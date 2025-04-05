@@ -1,0 +1,17 @@
+@baseUrl = http://localhost:8080/api/orgs
+
+### 1. Create Test Organization
+POST {{baseUrl}}/
+Content-Type: application/json
+
+{
+  "organizationName": "Test Org",
+  "email": "test@test.org",
+  "organizationType": "Society"
+}
+
+### 2. Get All Organizations
+GET {{baseUrl}}/
+
+### 3. Get Specific Organization (replace ID)
+GET {{baseUrl}}/67f1428a70519c340f2f3d78

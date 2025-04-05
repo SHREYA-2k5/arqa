@@ -2,14 +2,8 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const organizationSchema = new Schema({
-  organizationName: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    lowercase: true
-  },
+  organizationName: { type: String, required: true },
+  email: { type: String, lowercase: true },
   phone: String,
   address: String,
   city: String,
@@ -18,22 +12,14 @@ const organizationSchema = new Schema({
   registrationNumber: String,
   website: String,
   contactPersonPosition: String,
-  contactPerson:String,
+  contactPerson: String,
   organizationType: {
     type: String,
-    enum: ["Charitable Trust", "Society", "Non-Profit Company","Religious Organization","Educational Institution","Other"],
+    enum: ["Charitable Trust", "Society", "Non-Profit Company", "Religious Organization", "Educational Institution", "Other"],
     required: true
   },
-  description: {
-    type: String,
-    maxlength: 2000
-  },
-});
-
-organizationSchema.pre('save', function(next) {
-  this.updatedAt = Date.now();
-  next();
-});
+  description: { type: String, maxlength: 2000 },
+}, { timestamps: true });
 
 organizationSchema.virtual('id').get(function() {
   return this._id.toHexString();
