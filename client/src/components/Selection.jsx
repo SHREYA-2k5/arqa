@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { IconLock, IconClock, IconArrowRight, IconChecklist } from '@tabler/icons-react';
 
 const Selection = ({
+  mealsBySlot,
+  selections,
   activeTab,
   setActiveTab,
-  cutoffTimes,
-  onSubmit,
+  handleOptInChange,
+  handlePortionChange,
+  handleSubmit,
   menuItems,
-  selections,
-  setSelections,
-  isLoading
+  handleNotesChange,
+  cutoffTimes
 }) => {
 
-  const mealsBySlot = {
+  const filteredSlot = {
     breakfast: menuItems.filter(item => item.slot === 'breakfast'),
     lunch: menuItems.filter(item => item.slot === 'lunch'),
     snack: menuItems.filter(item => item.slot === 'snack'),
@@ -29,70 +31,23 @@ const Selection = ({
     return now > cutoff;
   };
 
-  const handleOptInChange = (itemId) => {
-    setSelections(prev => ({
-      ...prev,
-      [itemId]: {
-        ...prev[itemId],
-        optedIn: !prev[itemId].optedIn,
-        portion: !prev[itemId].optedIn ? 1 : 0,
-      },
-    }));
-  };
-
-  const handlePortionChange = (itemId, value) => {
-    if (value < 0) return;
-    setSelections(prev => ({
-      ...prev,
-      [itemId]: {
-        ...prev[itemId],
-        portion: value,
-      },
-    }));
-  };
-
-  const handleNotesChange = (itemId, notes) => {
-    setSelections(prev => ({
-      ...prev,
-      [itemId]: {
-        ...prev[itemId],
-        notes,
-      },
-    }));
-  };
-
   const handleSelectAll = () => {
     if (!isSlotLocked(activeTab)) {
-      const newSelections = { ...selections };
       mealsBySlot[activeTab].forEach(item => {
-        newSelections[item.id] = {
-          ...newSelections[item.id],
-          optedIn: true,
-          portion: 1
-        };
+        if (!selections[item.id]?.optedIn) {
+          handleOptInChange(item.id);
+        }
       });
-      setSelections(newSelections);
     }
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const selectedItems = Object.entries(selections)
-      .filter(([_, selection]) => selection.optedIn && selection.portion > 0)
-      .map(([itemId, selection]) => ({
-        itemId,
-        portions: selection.portion
-      }));
-    onSubmit(selectedItems);
-  };
-
+/* 
   if (isLoading) {
     return (
       <div className="w-2/3 overflow-y-auto p-8 flex items-center justify-center">
         <div className="text-xl">Loading menu options...</div>
       </div>
     );
-  }
+  } */
 
   return (
     <div className="w-2/3 overflow-y-auto p-8">
@@ -112,7 +67,7 @@ const Selection = ({
 
         <div className="bg-[#F8F2EF] rounded-2xl shadow-xl overflow-hidden">
           <div className="flex border-b border-gray-200">
-            {Object.keys(mealsBySlot).map(slot => {
+            {Object.keys(filteredSlot).map(slot => {
               const locked = isSlotLocked(slot);
               return (
                 <button
@@ -150,7 +105,7 @@ const Selection = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {mealsBySlot[activeTab].map(item => {
+              {filteredSlot[activeTab].map(item => {
                 const locked = isSlotLocked(activeTab);
                 const maxPortions = 3;
                 const itemSelection = selections[item.id] || { optedIn: false, portion: 0, notes: '' };
