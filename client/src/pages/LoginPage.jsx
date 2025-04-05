@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const LoginPage = () => {
   const [currentLanguage, setCurrentLanguage] = useState(0);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login, currentUser } = useAuth();
+  const navigate = useNavigate();
+  
   const languages = [
     { text: "Welcome to ARQA" },
     { text: "ARQA में आपका स्वागत है" }, // Hindi
     { text: "ARQA க்கு வரவேற்கிறோம்" }, // Tamil
     { text: "ARQA కు స్వాగతం" }, // Telugu
-    { text: "ARQA ಗೆ ಸುಸ్వಾಗತ" }, // Kannada
+    { text: "ARQA ಗೆ ಸುಸ್ವಾಗತ" }, // Kannada
     { text: "ARQA സ്വാഗതം" }, // Malayalam
     { text: "ARQA ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ" }, // Punjabi
     { text: "ARQA তে স্বাগতম" } // Bengali
@@ -20,6 +28,30 @@ const LoginPage = () => {
     return () => clearInterval(interval);
   }, [languages.length]);
 
+  useEffect(() => {
+    // Redirect if already logged in
+    if (currentUser) {
+      if (currentUser.role === "admin") {
+        navigate("/dash");
+      } else {
+        navigate("/prebook");
+      }
+    }
+  }, [currentUser, navigate]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError("");
+    
+    const result = login(email, password);
+    
+    if (result.success) {
+      // Navigation happens in the useEffect above
+    } else {
+      setError(result.error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#EBDFD7] flex items-center justify-center px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
@@ -30,8 +62,32 @@ const LoginPage = () => {
           </h1>
         </div>
 
+        {/* Auth credentials info */}
+        <div className="mb-6 p-4 bg-gray-100 rounded-lg text-sm">
+          <p className="font-medium text-gray-700 mb-2">Demo Credentials:</p>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+            <div>
+              <p className="font-medium">Admin:</p>
+              <p>admin@arqa.com</p>
+              <p>admin123</p>
+            </div>
+            <div>
+              <p className="font-medium">Student:</p>
+              <p>student@arqa.com</p>
+              <p>student123</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
+
         {/* Manual Login Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
               Email
@@ -42,6 +98,8 @@ const LoginPage = () => {
               placeholder="Enter your email"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -55,6 +113,8 @@ const LoginPage = () => {
               placeholder="Enter your password"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
@@ -87,7 +147,6 @@ const LoginPage = () => {
         </button>
 
         {/* Special NGO Registration Button */}
-        <a href="/ngoreg" target="_blank">
         <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition duration-200 flex items-center justify-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
@@ -95,7 +154,6 @@ const LoginPage = () => {
           </svg>
           NGO Registration
         </button>
-        </a>
 
         {/* Footer Links */}
         <div className="flex justify-between mt-6 text-sm">
