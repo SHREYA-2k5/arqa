@@ -106,7 +106,7 @@ const BookingPage = () => {
                     portions: selection.portion
                 }));
 
-            const response = await fetch('/api/menu/book', {
+            const response = await fetch('http://localhost:8080/api/menu/book', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ items: selectedItems }),
