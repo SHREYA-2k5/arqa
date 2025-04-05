@@ -8,7 +8,8 @@ const Connect = () => {
     inventory: [{ item: '', quantity: '' }]
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState(null); // null | 'created' | 'accepted' | 'completed'
+  const [currentStage, setCurrentStage] = useState(0); // 0, 1, or 2
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,49 +46,152 @@ const Connect = () => {
     }
   };
 
+  const simulateAdminApproval = () => {
+    // Simulate admin approving the request stages
+    const stages = ['created', 'accepted', 'completed'];
+    let stageIndex = 0;
+    
+    const interval = setInterval(() => {
+      setCurrentStage(stageIndex);
+      setSubmissionStatus(stages[stageIndex]);
+      
+      if (stageIndex === stages.length - 1) {
+        clearInterval(interval);
+      }
+      stageIndex++;
+    }, 2000); // Change stage every 2 seconds
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmissionStatus('created');
+    setCurrentStage(0);
     
     // Simulate API call
     setTimeout(() => {
       console.log('Form submitted:', formData);
       setIsSubmitting(false);
-      setIsSuccess(true);
       
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setIsSuccess(false);
-        setFormData({
-          name: '',
-          email: '',
-          organization: '',
-          inventory: [{ item: '', quantity: '' }]
-        });
-      }, 3000);
+      // Start simulating the approval process
+      simulateAdminApproval();
     }, 1500);
   };
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      organization: '',
+      inventory: [{ item: '', quantity: '' }]
+    });
+    setSubmissionStatus(null);
+    setCurrentStage(0);
+  };
+
+  const statusStages = [
+    { id: 'created', label: 'Request Created', description: 'Your request has been successfully submitted.' },
+    { id: 'accepted', label: 'Request Accepted', description: 'Your request has been reviewed and accepted.' },
+    { id: 'completed', label: 'Completed - Good Cause Approved', description: 'Admin has approved your request as a good cause.' }
+  ];
 
   return (
     <div className="min-h-screen bg-orange-50 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden border-10 border-white">
         {/* Header */}
         <div className="bg-orange-500 px-8 py-6">
-          <h2 className="text-2xl font-bold text-white">Connect with Us</h2>
-          <p className="text-orange-100 mt-1">Fill out the form to request assistance</p>
+          <h2 className="text-2xl font-bold text-white">Create Request</h2>
+          <p className="text-orange-100 mt-1">Fill out the form to create the request.</p>
         </div>
         
         {/* Form Content */}
         <div className="p-8">
-          {isSuccess ? (
-            <div className="text-center py-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                <svg className="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                </svg>
+          {submissionStatus ? (
+            <div className="space-y-6">
+              {/* Status Bar */}
+              <div className="relative">
+                <div className="flex justify-between mb-2">
+                  {statusStages.map((stage, index) => (
+                    <div 
+                      key={stage.id}
+                      className={`text-center ${index < statusStages.length - 1 ? 'w-1/3' : 'w-1/3'}`}
+                    >
+                      <div className={`flex items-center justify-center w-10 h-10 mx-auto rounded-full ${
+                        currentStage >= index ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-500'
+                      }`}>
+                        {index + 1}
+                      </div>
+                      <h3 className={`text-sm font-medium mt-2 ${
+                        currentStage >= index ? 'text-gray-800' : 'text-gray-500'
+                      }`}>
+                        {stage.label}
+                      </h3>
+                    </div>
+                  ))}
+                </div>
+                <div className="relative pt-1">
+                  <div className="flex mb-2 items-center">
+                    <div className="flex-1">
+                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-orange-500 rounded-full transition-all duration-500" 
+                          style={{ width: `${(currentStage / (statusStages.length - 1)) * 100}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-medium text-gray-800">Request Submitted!</h3>
-              <p className="text-gray-600 mt-2">We'll get back to you soon.</p>
+
+              {/* Current Status Details */}
+              <div className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-lg">
+                <h3 className="text-lg font-medium text-gray-800">
+                  {statusStages[currentStage].label}
+                </h3>
+                <p className="text-gray-600 mt-1">
+                  {statusStages[currentStage].description}
+                </p>
+              </div>
+
+              {/* Show form data for reference */}
+              <div className="border border-gray-200 rounded-lg p-4">
+                <h3 className="text-sm font-medium text-gray-700 mb-2">Request Details</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs text-gray-500">Name</p>
+                    <p className="text-gray-800">{formData.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Email</p>
+                    <p className="text-gray-800">{formData.email}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">Organization</p>
+                    <p className="text-gray-800">{formData.organization}</p>
+                  </div>
+                </div>
+                
+                <div className="mt-4">
+                  <p className="text-xs text-gray-500 mb-2">Inventory Items</p>
+                  <div className="space-y-2">
+                    {formData.inventory.map((item, index) => (
+                      <div key={index} className="flex justify-between border-b border-gray-100 pb-2">
+                        <span className="text-gray-800">{item.item}</span>
+                        <span className="text-gray-600">{item.quantity}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {currentStage === statusStages.length - 1 && (
+                <button
+                  onClick={resetForm}
+                  className="w-full mt-6 bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200"
+                >
+                  Create New Request
+                </button>
+              )}
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">

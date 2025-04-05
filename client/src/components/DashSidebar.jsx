@@ -1,4 +1,4 @@
-import { IconCaretLeft, IconCaretRight, IconChartBar, IconToolsKitchen3, IconShoppingCart, IconReport, IconHeartHandshake } from '@tabler/icons-react';
+import { IconCaretLeft, IconCaretRight, IconChartBar, IconToolsKitchen3, IconShoppingCart, IconSparkles, IconHeartHandshake } from '@tabler/icons-react';
 import { useState, useEffect } from 'react';
 
 export const Sidebar = ({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen }) => {
@@ -9,7 +9,7 @@ export const Sidebar = ({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen }
     { id: 'dashboard', icon: <IconChartBar className="text-white" />, label: 'Dashboard' },
     { id: 'menu', icon: <IconToolsKitchen3 className="text-white" />, label: 'Menu Management' },
     { id: 'ingredients', icon: <IconShoppingCart className="text-white" />, label: 'Ingredients' },
-    { id: 'reports', icon: <IconReport className="text-white" />, label: 'Reports' },
+    { id: 'reports', icon: <IconSparkles className="text-white" />, label: 'Reports' },
     { id: 'donate', icon: <IconHeartHandshake className="text-white" />, label: 'Donate' },
   ];
   
