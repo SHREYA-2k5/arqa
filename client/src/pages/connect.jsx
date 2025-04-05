@@ -96,7 +96,7 @@ const Connect = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-orange-50 flex items-center justify-center p-4">
+    
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden border-10 border-white">
         {/* Header */}
         <div className="bg-orange-500 px-8 py-6">
@@ -319,7 +319,7 @@ const Connect = () => {
           )}
         </div>
       </div>
-    </div>
+    
   );
 };
 
