@@ -85,7 +85,7 @@ export const SlotDistributionChart = ({ data }) => {
     colorPalette.complementary.slate,
     colorPalette.complementary.amber,
     colorPalette.orange.muted,
-    colorPalette.orange.dark
+    colorPalette.orange,
   ];
 
   const chartData = {
@@ -114,8 +114,8 @@ export const SlotDistributionChart = ({ data }) => {
             }
           },
           tooltip: {
-            bodyColor: '#1f2937', // gray-800
-            titleColor: '#111827', // gray-900
+            bodyColor: '#fff', //color of the hover thing body
+            titleColor: '#fff', //color of the hover thing title
             displayColors: true,
             callbacks: {
               label: function(context) {

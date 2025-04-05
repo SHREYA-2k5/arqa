@@ -16,10 +16,10 @@ const PulseLoader = () => {
 
 const BookingPage = () => {
     const [cutoffTimes] = useState({
-        breakfast: 2300,
-        lunch: 2358,
-        snack: 1900,
-        dinner: 2358
+        breakfast: 5000,
+        lunch: 1100,
+        snack: 1800,
+        dinner: 2350
     });
     const [menuItems, setMenuItems] = useState([]);
     const [selections, setSelections] = useState({});
