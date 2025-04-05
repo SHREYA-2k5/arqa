@@ -1,0 +1,23 @@
+@baseUrl = http://localhost:8080/api/users
+@contentType = application/json
+
+### 1. Get All Users
+GET {{baseUrl}}/
+
+### 2. Create New User
+POST {{baseUrl}}/
+Content-Type: {{contentType}}
+
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "role": "customer",
+  "bookings": 3,
+  "points": 150
+}
+
+### 3. Get User by ID
+GET {{baseUrl}}/id
+
+### 6. Get Non-Existent User
+GET {{baseUrl}}/507f1f77bcf86cd799439011
