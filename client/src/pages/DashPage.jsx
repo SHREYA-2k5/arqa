@@ -3,6 +3,7 @@ import { Sidebar } from '../components/DashSidebar';
 import { DashboardPage, IngredientsPage, ReportsPage } from '../components/DashSections';
 import { MenuPage } from '../components/UpdateMenuSection';
 import { dummyBookingData } from './tempdata';
+import Connect from './connect';
 
 const useDashboardData = () => {
   const [bookingStats, setBookingStats] = useState([]);
@@ -190,6 +191,9 @@ const DashPage = () => {
               mostPopular={mostPopular}
               bookingStats={bookingStats}
             />
+          )}
+          {!isLoading && activeTab === 'donate' && (
+            <Connect/>
           )}
         </div>
       </div>

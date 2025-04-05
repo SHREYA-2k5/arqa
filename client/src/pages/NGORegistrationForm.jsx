@@ -104,7 +104,7 @@ const NGORegistrationForm = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed top-18 inset-x-0 bottom-0 bg-[#EBDFD7] bg-opacity-50 flex items-start justify-center p-4 z-50">
+    <div className="fixed top-18 inset-x-0 bottom-0 bg-[#EBDFD7] bg-opacity-50 flex items-start justify-center p-4 z-60">
       <div className="bg-[#F8F2EF] rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
