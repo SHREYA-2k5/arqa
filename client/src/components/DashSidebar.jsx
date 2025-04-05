@@ -1,4 +1,4 @@
-import { IconCaretLeft, IconCaretRight, IconChartBar, IconToolsKitchen3, IconShoppingCart, IconReport } from '@tabler/icons-react';
+import { IconCaretLeft, IconCaretRight, IconChartBar, IconToolsKitchen3, IconShoppingCart, IconReport, IconHeartHandshake } from '@tabler/icons-react';
 
 export const Sidebar = ({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen }) => {
   const sidebarSections = [
@@ -6,6 +6,7 @@ export const Sidebar = ({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen }
     { id: 'menu', icon: <IconToolsKitchen3 />, label: 'Menu Management' },
     { id: 'ingredients', icon: <IconShoppingCart />, label: 'Ingredients' },
     { id: 'reports', icon: <IconReport />, label: 'Reports' },
+    { id: 'donate', icon: <IconHeartHandshake />, label: 'Donate' },
   ];
 
   return (

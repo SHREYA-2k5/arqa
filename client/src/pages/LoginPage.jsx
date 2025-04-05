@@ -147,6 +147,7 @@ const LoginPage = () => {
         </button>
 
         {/* Special NGO Registration Button */}
+        <a href="/ngoreg" target="_blank">
         <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-lg font-medium transition duration-200 flex items-center justify-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clipRule="evenodd" />
@@ -154,6 +155,7 @@ const LoginPage = () => {
           </svg>
           NGO Registration
         </button>
+        </a>
 
         {/* Footer Links */}
         <div className="flex justify-between mt-6 text-sm">
