@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import MealSelection from '../components/Selection';
 import BookingSummary from '../components/Summary';
 import { menuItems as defaultMenuItems } from './tempdata';
+import { useAuth } from '../context/AuthContext';
 
-// 👇 Pulse Loader Component
 const PulseLoader = () => {
     return (
         <div className="flex space-x-2 items-center justify-center mt-6">
@@ -16,7 +16,7 @@ const PulseLoader = () => {
 
 const BookingPage = () => {
     const [cutoffTimes] = useState({
-        breakfast: 5000,
+        breakfast: 2359,
         lunch: 1100,
         snack: 1800,
         dinner: 2350
@@ -27,6 +27,7 @@ const BookingPage = () => {
     const [error, setError] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [activeTab, setActiveTab] = useState('breakfast');
+    const { currency, adjustCurrency } = useAuth();
 
     const mealsBySlot = {
         breakfast: menuItems.filter(item => item.slot === 'breakfast'),
@@ -116,7 +117,7 @@ const BookingPage = () => {
                     itemId,
                     portions: selection.portion
                 }));
-
+            adjustCurrency(2);
             const response = await fetch('http://localhost:8080/api/menu/book', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },

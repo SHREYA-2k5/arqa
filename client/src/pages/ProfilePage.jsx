@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import QRCode from 'react-qr-code';
 
 const ProfilePage = () => {
-  const { currentUser, logout } = useAuth();
+  const { currency, currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [showQR, setShowQR] = useState(false);
 
@@ -48,7 +48,7 @@ const ProfilePage = () => {
             </button>
             
             <div className="text-center mb-4">
-              <h3 className="text-xl font-bold mb-2">Your Credits: {currentUser.currency.toFixed(2)}</h3>
+              <h3 className="text-xl font-bold mb-2">Your Credits: {currency.toFixed(2)}</h3>
               <p className="text-gray-600">Scan this QR at the cafeteria</p>
             </div>
             
@@ -115,7 +115,7 @@ const ProfilePage = () => {
                   </div>
                   <div>
                     <p className="text-sm text-gray-500">Credits</p>
-                    <p className="text-xl font-semibold">{currentUser.currency.toFixed(2)}</p>
+                    <p className="text-xl font-semibold">{currency.toFixed(2)}</p>
                   </div>
                 </div>
               </div>

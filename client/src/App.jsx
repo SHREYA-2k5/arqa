@@ -67,7 +67,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <AppContent />
+          <AppContent />
       </AuthProvider>
     </Router>
   );

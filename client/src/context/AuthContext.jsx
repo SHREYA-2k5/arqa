@@ -5,21 +5,32 @@ const AuthContext = createContext(null);
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currency, setCurrency] = useState(0); // Separate currency state
 
   // Check for existing login on component mount
   useEffect(() => {
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
-      setCurrentUser(JSON.parse(storedUser));
+      const user = JSON.parse(storedUser);
+      setCurrentUser(user);
+      setCurrency(user.currency || 0); // Initialize currency from stored user
     }
     setLoading(false);
   }, []);
 
-  // Mock login function with hardcoded credentials
+  // Update both currentUser and currency when user changes
+  const updateUser = (user) => {
+    setCurrentUser(user);
+    setCurrency(user.currency || 0);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  };
+
+  // Mock login function
   const login = (email, password) => {
-    // Admin credentials
+    let user;
+    
     if (email === "admin@arqa.com" && password === "admin123") {
-      const adminUser = { 
+      user = { 
         email, 
         role: "admin", 
         name: "Admin User", 
@@ -27,13 +38,9 @@ export const AuthProvider = ({ children }) => {
         prebookedMeals: 0,
         currency: 0
       };
-      setCurrentUser(adminUser);
-      localStorage.setItem('currentUser', JSON.stringify(adminUser));
-      return { success: true, user: adminUser };
     } 
-    // Student credentials
     else if (email === "student@arqa.com" && password === "student123") {
-      const studentUser = { 
+      user = { 
         email, 
         role: "student", 
         name: "Student User", 
@@ -41,25 +48,44 @@ export const AuthProvider = ({ children }) => {
         prebookedMeals: 8,
         currency: 125.50
       };
-      setCurrentUser(studentUser);
-      localStorage.setItem('currentUser', JSON.stringify(studentUser));
-      return { success: true, user: studentUser };
     } 
     else {
       return { success: false, error: "Invalid credentials" };
     }
+
+    updateUser(user);
+    return { success: true, user };
   };
 
   const logout = () => {
     setCurrentUser(null);
+    setCurrency(0);
     localStorage.removeItem('currentUser');
+  };
+
+  // Function to update currency
+  const updateCurrency = (amount) => {
+    const updatedUser = {
+      ...currentUser,
+      currency: amount
+    };
+    updateUser(updatedUser);
+  };
+
+  // Function to add/subtract currency
+  const adjustCurrency = (amount) => {
+    const newAmount = (currentUser?.currency || 0) + amount;
+    updateCurrency(newAmount);
   };
 
   const value = {
     currentUser,
+    currency, // Expose currency directly
     login,
     logout,
-    loading
+    loading,
+    updateCurrency,
+    adjustCurrency
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

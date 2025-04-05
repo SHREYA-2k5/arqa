@@ -62,7 +62,7 @@ const Selection = ({
             <p className="text-sm font-medium">
               {isSlotLocked(activeTab) ? 
                 'Changes locked for this meal' : 
-                `Open until ${cutoffTimes[activeTab]}`
+                `Open until ${Math.floor(cutoffTimes[activeTab]/100)}:${cutoffTimes[activeTab]%100}`
               }
             </p>
           </div>
