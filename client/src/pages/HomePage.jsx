@@ -58,9 +58,11 @@ function HomePage() {
           </div>
 
           <div className="flex justify-center mt-12">
+            <a href="/login">
             <button className="bg-orange-500 hover:bg-black text-white font-medium py-3 px-8 rounded-full transition duration-300">
-              Mail Us To Know More
+              Join our Revolution
             </button>
+            </a>
           </div>
         </div>
       </div>
