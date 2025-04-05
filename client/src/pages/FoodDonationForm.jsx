@@ -282,7 +282,7 @@ const FoodDonationForm = () => {
             <div className="mt-6">
               <label className="block text-sm font-medium text-gray-700 mb-1">Best Before*</label>
               <input
-                type="datetime-local"
+                type="date"
                 name="bestBefore"
                 value={formData.bestBefore}
                 onChange={handleChange}

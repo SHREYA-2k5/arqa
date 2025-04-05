@@ -25,8 +25,6 @@ router.get('/', async (req, res) => {
   try {
     const organizations = await Organization.find();
     res.json({
-      success: true,
-      count: organizations.length,
       data: organizations
     });
   } catch (error) {

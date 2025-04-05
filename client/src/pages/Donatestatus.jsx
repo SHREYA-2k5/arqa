@@ -1,28 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconMail, IconPhone, IconMapPin, IconCheck, IconX, IconClipboardList } from '@tabler/icons-react';
 
 const DonationStatus = ({ formData, currentStage, submissionStatus, selectedNGO, onAcceptRequest, onResetForm }) => {
   const [showNGOs, setShowNGOs] = useState(false);
+  const [ngos, setNgos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Dummy NGOs data - streamlined
-  const dummyNGOs = [
-    {
-      id: 1,
-      name: "Feed The Hunger Foundation",
-      email: "contact@feedthehunger.org",
-      phone: "+91 9876543210",
-      address: "123 Service Road, Bangalore",
-      accepted: true
-    },
-    {
-      id: 3,
-      name: "No Hunger Initiative",
-      email: "support@nohunger.org",
-      phone: "+91 7654321098",
-      address: "789 Helping Street, Bangalore",
-      accepted: true
+  // Fetch NGOs from the database
+  useEffect(() => {
+    const fetchNGOs = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('http://localhost:8080/api/orgs'); // Adjust this endpoint to your actual API
+        if (!response.ok) {
+          throw new Error('Failed to fetch NGOs');
+        }
+        const data = await response.json();
+        setNgos(data.data);
+      } catch (err) {
+        console.error('Error fetching NGOs:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Only fetch if the modal might be shown (when status is 'accepted')
+    if (currentStage === 1) {
+      fetchNGOs();
     }
-  ];
+  }, [currentStage]);
 
   const statusStages = [
     { 
@@ -100,71 +108,24 @@ const DonationStatus = ({ formData, currentStage, submissionStatus, selectedNGO,
             <button
               onClick={() => setShowNGOs(true)}
               className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center"
+              disabled={loading}
             >
               <IconClipboardList className="mr-2" size={18} />
-              View NGO Acceptances
+              {loading ? 'Loading NGOs...' : 'View NGO Acceptances'}
             </button>
           )}
         </div>
 
         {/* Show form data for reference */}
         <div className="border border-gray-200 rounded-lg p-4">
-          <h3 className="text-sm font-medium text-gray-700 mb-2">Request Details</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <p className="text-xs text-gray-500">Contact Person</p>
-              <p className="text-gray-800">{formData.name}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">Email</p>
-              <p className="text-gray-800">{formData.email}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">Organization</p>
-              <p className="text-gray-800">{formData.organization}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">Organization Type</p>
-              <p className="text-gray-800">{formData.organizationType}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">Address</p>
-              <p className="text-gray-800">{formData.address}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">City</p>
-              <p className="text-gray-800">{formData.city}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">Phone</p>
-              <p className="text-gray-800">{formData.phone}</p>
-            </div>
-          </div>
-          
-          <div className="mt-4">
-            <p className="text-xs text-gray-500 mb-2">Food Details</p>
-            <div className="space-y-2">
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <span className="text-gray-800">Food Type</span>
-                <span className="text-gray-600">{formData.foodDetails}</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <span className="text-gray-800">Quantity</span>
-                <span className="text-gray-600">{formData.quantity}</span>
-              </div>
-              <div className="flex justify-between border-b border-gray-100 pb-2">
-                <span className="text-gray-800">Best Before</span>
-                <span className="text-gray-600">{formData.bestBefore}</span>
-              </div>
-            </div>
-          </div>
+          {/* ... (keep your existing form data display) ... */}
           
           {selectedNGO && (
             <div className="mt-4 p-3 bg-green-50 rounded-lg border border-green-200">
               <h4 className="text-sm font-medium text-green-800 mb-2">Food Collected By:</h4>
               <div className="flex items-start space-x-3">
                 <div className="flex-1">
-                  <p className="font-medium">{selectedNGO.name}</p>
+                  <p className="font-medium">{selectedNGO.organizationName}</p>
                   <div className="flex items-center text-sm text-gray-600 mt-1">
                     <IconMail className="mr-2" size={14} />
                     <span>{selectedNGO.email}</span>
@@ -175,7 +136,7 @@ const DonationStatus = ({ formData, currentStage, submissionStatus, selectedNGO,
                   </div>
                   <div className="flex items-center text-sm text-gray-600 mt-1">
                     <IconMapPin className="mr-2" size={14} />
-                    <span>{selectedNGO.address}</span>
+                    <span>{selectedNGO.address}, {selectedNGO.city}, {selectedNGO.state}</span>
                   </div>
                 </div>
               </div>
@@ -193,7 +154,7 @@ const DonationStatus = ({ formData, currentStage, submissionStatus, selectedNGO,
         )}
       </div>
 
-      {/* NGO Acceptance Modal - WITH TRANSPARENT BACKDROP */}
+      {/* NGO Acceptance Modal */}
       {showNGOs && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm p-4">
           <div className="bg-white rounded-xl shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
@@ -208,38 +169,48 @@ const DonationStatus = ({ formData, currentStage, submissionStatus, selectedNGO,
                 </button>
               </div>
               
-              <div className="space-y-4">
-                {dummyNGOs.filter(ngo => ngo.accepted).map(ngo => (
-                  <div key={ngo.id} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-medium text-gray-800">{ngo.name}</h4>
-                        <div className="flex items-center text-sm text-gray-600 mt-1">
-                          <IconMail className="mr-2" size={14} />
-                          <span>{ngo.email}</span>
+              {error ? (
+                <div className="text-red-500 p-4">{error}</div>
+              ) : loading ? (
+                <div className="flex justify-center p-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+                </div>
+              ) : ngos.length === 0 ? (
+                <div className="text-gray-500 p-4 text-center">No NGOs have accepted this request yet</div>
+              ) : (
+                <div className="space-y-4">
+                  {ngos.map(ngo => (
+                    <div key={ngo._id} className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-medium text-gray-800">{ngo.organizationName}</h4>
+                          <div className="flex items-center text-sm text-gray-600 mt-1">
+                            <IconMail className="mr-2" size={14} />
+                            <span>{ngo.email}</span>
+                          </div>
+                          <div className="flex items-center text-sm text-gray-600 mt-1">
+                            <IconPhone className="mr-2" size={14} />
+                            <span>{ngo.phone}</span>
+                          </div>
+                          <div className="flex items-center text-sm text-gray-600 mt-1">
+                            <IconMapPin className="mr-2" size={14} />
+                            <span>{ngo.address}, {ngo.city}, {ngo.state}</span>
+                          </div>
                         </div>
-                        <div className="flex items-center text-sm text-gray-600 mt-1">
-                          <IconPhone className="mr-2" size={14} />
-                          <span>{ngo.phone}</span>
-                        </div>
-                        <div className="flex items-center text-sm text-gray-600 mt-1">
-                          <IconMapPin className="mr-2" size={14} />
-                          <span>{ngo.address}</span>
-                        </div>
+                        <button
+                          onClick={() => {
+                            onAcceptRequest(ngo);
+                            setShowNGOs(false);
+                          }}
+                          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm"
+                        >
+                          Mark as Collected
+                        </button>
                       </div>
-                      <button
-                        onClick={() => {
-                          onAcceptRequest(ngo);
-                          setShowNGOs(false);
-                        }}
-                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm"
-                      >
-                        Mark as Collected
-                      </button>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
               
               <div className="mt-6">
                 <button
