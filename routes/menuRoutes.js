@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Menu = require("../models/menu.model.js");
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
+const genAI = new GoogleGenerativeAI('AIzaSyCeB43KWVDxx8Qmnt1qkqGl1pPpKXJOlXc');
 
 router.get("/", async (req, res) => {
     try {
@@ -80,53 +80,68 @@ router.post('/bulk', async (req, res) => {
     }
   });
 
-  //Gemini endpoint
-router.get("/report/", async (req, res) => {
+//Gemini endpoint
+router.get("/report", async (req, res) => {
   try {
-      console.log("Trying to generate report");
-      console.log("GKEY ",process.env.GEMINI_KEY);
-      
-      // 1. First fetch all menu data
       const menuItems = await Menu.find({});
-      
-      console.log("Got all the data from db. Sending prompt...");
-      
       if (menuItems.length === 0) {
-          return res.status(404).json({ error: "No menu items found in database" });
+          return res.status(404).json({ error: "No menu items found" });
       }
 
-      // 2. Prepare AI prompt with the fetched data
-      const prompt = `Tell me about the moon`;
+      // 1. Define the expected JSON schema
+      const responseSchema = {
+        type: 'ARRAY',
+        items: {
+          type: 'OBJECT',
+          properties: {
+            id: { 
+              type: 'STRING',
+              description: 'MongoDB ID of the menu item'
+            },
+            title: {
+              type: 'STRING',
+              description: 'Short descriptive title of analysis',
+              maxLength: 60
+            },
+            text: {
+              type: 'STRING',
+              description: 'Detailed analysis of the menu item'
+            }
+          },
+          required: ['id', 'title', 'text']
+        }
+      };
 
-      // 3. Call Gemini AI
-      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash"});
-      const result = await model.generateContent(prompt);
+      // 2. Call Gemini with explicit JSON schema
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const result = await model.generateContent({
+        contents: [{
+          role: 'user',
+          parts: [{
+            text: `Analyze these menu items and provide recommendations: ${JSON.stringify(menuItems.slice(0, 3))}`
+          }]
+        }],
+        generationConfig: {
+          responseMimeType: 'application/json',
+          responseSchema: responseSchema
+        }
+      });
+
+      // 3. Get structured JSON response
       const response = await result.response;
-      const text = response.text();
-
-      // 4. Process and return results
-      const recommendations = JSON.parse(text);
+      const jsonResponse = JSON.parse(response.text());
       
       res.json({
           success: true,
-          totalItems: menuItems.length,
-          generatedAt: new Date().toISOString(),
-          recommendations: recommendations
+          data: jsonResponse,
+          generatedAt: new Date().toISOString()
       });
 
   } catch (error) {
-      console.error("Report generation error:", error);
-      let errorDetails = error.message;
-      
-      // Handle JSON parsing errors specifically
-      if (error instanceof SyntaxError) {
-          errorDetails = "Failed to parse AI response";
-      }
-      
+      console.error("Error:", error);
       res.status(500).json({
           success: false,
-          error: "Report generation failed",
-          details: errorDetails
+          error: error.message
       });
   }
 });
