@@ -3,12 +3,23 @@ import MealSelection from '../components/Selection';
 import BookingSummary from '../components/Summary';
 import { menuItems as defaultMenuItems } from './tempdata';
 
+// 👇 Pulse Loader Component
+const PulseLoader = () => {
+    return (
+        <div className="flex space-x-2 items-center justify-center mt-6">
+            <span className="w-3 h-3 bg-[#e65f2b] rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+            <span className="w-3 h-3 bg-[#e65f2b] rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+            <span className="w-3 h-3 bg-[#e65f2b] rounded-full animate-bounce"></span>
+        </div>
+    );
+};
+
 const BookingPage = () => {
     const [cutoffTimes] = useState({
-        breakfast: 2300, 
-        lunch: 2358,      
-        snack: 1900,      
-        dinner: 2358      
+        breakfast: 2300,
+        lunch: 2358,
+        snack: 1900,
+        dinner: 2358
     });
     const [menuItems, setMenuItems] = useState([]);
     const [selections, setSelections] = useState({});
@@ -25,39 +36,39 @@ const BookingPage = () => {
     };
 
     useEffect(() => {
-      const fetchMenuData = async () => {
-          try {
-              const response = await fetch('http://localhost:8080/api/menu');
-              if (!response.ok) throw new Error('Network response was not ok');
-              const data = await response.json();
-              
-              setMenuItems(data);
-              initializeSelections(data);
-          } catch (error) {
-              console.error('Error fetching menu:', error);
-              setError(error.message);
-              // Fall back to default data
-              setMenuItems(defaultMenuItems);
-              initializeSelections(defaultMenuItems);
-          } finally {
-              setIsLoading(false);
-          }
-      };
+        const fetchMenuData = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/api/menu');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const data = await response.json();
 
-      const initializeSelections = (items) => {
-          const initialSelections = {};
-          items.forEach(item => {
-              initialSelections[item.id] = {
-                  optedIn: true,
-                  portion: 1,
-                  notes: ''
-              };
-          });
-          setSelections(initialSelections);
-      };
+                setMenuItems(data);
+                initializeSelections(data);
+            } catch (error) {
+                console.error('Error fetching menu:', error);
+                setError(error.message);
+                // Fall back to default data
+                setMenuItems(defaultMenuItems);
+                initializeSelections(defaultMenuItems);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-      fetchMenuData();
-  }, []);
+        const initializeSelections = (items) => {
+            const initialSelections = {};
+            items.forEach(item => {
+                initialSelections[item.id] = {
+                    optedIn: true,
+                    portion: 1,
+                    notes: ''
+                };
+            });
+            setSelections(initialSelections);
+        };
+
+        fetchMenuData();
+    }, []);
 
     const handleOptInChange = (itemId) => {
         setSelections(prev => ({
@@ -93,11 +104,11 @@ const BookingPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
             const selectedItems = Object.entries(selections)
-                .filter(([id, selection]) => 
-                    selection.optedIn && 
+                .filter(([id, selection]) =>
+                    selection.optedIn &&
                     selection.portion > 0 &&
                     menuItems.some(item => item.id === id)
                 )
@@ -119,21 +130,23 @@ const BookingPage = () => {
             alert('Failed to submit booking. Please try again.');
         }
     };
-/* 
+
+    // 👇 Loader view
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center h-screen">
-                <div className="text-xl">Loading menu options...</div>
+            <div className="flex flex-col items-center justify-center h-screen bg-[#EBDFD7]">
+                <PulseLoader />
+                <div className="text-lg mt-4 text-[#e65f2b]">Loading menu options...</div>
             </div>
         );
-    } */
+    }
 
     if (submitted) {
         return (
             <div className="max-w-4xl mx-auto p-8 bg-[#EBDFD7] rounded-xl shadow-lg mt-10">
                 <h2 className="text-3xl font-bold text-green-700 mb-4">Thank You!</h2>
                 <p className="text-gray-700 text-lg mb-6">Your meal preferences have been successfully recorded.</p>
-                
+
                 <div className="bg-[#F8F2EF] p-6 rounded-lg shadow-sm mb-6">
                     <h3 className="text-xl font-semibold mb-4">Your Selections:</h3>
                     {Object.entries(selections)
@@ -149,7 +162,7 @@ const BookingPage = () => {
                             ) : null;
                         })}
                 </div>
-                
+
                 <button
                     onClick={() => setSubmitted(false)}
                     className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-lg"
