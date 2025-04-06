@@ -85,12 +85,38 @@ const NGORegistrationForm = ({ onClose }) => {
     setCurrentStep(prev => prev - 1);
   };
 
+  const handleClose = () => {
+    // Reset all form data
+    setFormData({
+      organizationName: '',
+      email: '',
+      phone: '',
+      address: '',
+      city: '',
+      state: '',
+      area: '',
+      registrationNumber: '',
+      website: '',
+      contactPerson: '',
+      contactPersonPosition: '',
+      organizationType: '',
+      areasOfOperation: [],
+      description: '',
+      documents: null
+    });
+    // Reset form state
+    setCurrentStep(1);
+    setIsSubmitting(false);
+    setIsSuccess(false);
+    // Close the form
+    onClose();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
-      // Prepare the data according to the schema
       const dataToSend = {
         organizationName: formData.organizationName,
         email: formData.email,
@@ -120,10 +146,8 @@ const NGORegistrationForm = ({ onClose }) => {
       setIsSubmitting(false);
       setIsSuccess(true);
       
-      // Reset form after 3 seconds
       setTimeout(() => {
-        setIsSuccess(false);
-        onClose();
+        handleClose(); // Use handleClose to reset and close after success
       }, 3000);
     } catch (error) {
       console.error('Registration failed:', error);
@@ -158,7 +182,7 @@ const NGORegistrationForm = ({ onClose }) => {
               </div>
             </div>
             <button 
-              onClick={onClose}
+              onClick={handleClose}
               className="text-gray-500 hover:text-gray-700 transition-colors"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -370,16 +394,17 @@ const NGORegistrationForm = ({ onClose }) => {
                       />
                     </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Area*</label>
-                    <input
-                      type="text"
-                      name="Area"
-                      value={formData.area}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-                      required/>
-                  </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Area*</label>
+                      <input
+                        type="text"
+                        name="area"
+                        value={formData.area}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
+                        required
+                      />
+                    </div>
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">State*</label>
