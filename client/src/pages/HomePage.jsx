@@ -42,7 +42,7 @@ function HomePage() {
             <p className="leading-relaxed">
               Food waste is a growing problem, especially in hostels, restaurants, and student 
               communities. Every day, tons of perfectly good food go to waste, while millions of people 
-              and stray animals struggle to find their next meal. Rescue & Share is here to change that.
+              and stray animals struggle to find their next meal. Arqa is here to change that.
             </p>
 
             <p className="leading-relaxed">
