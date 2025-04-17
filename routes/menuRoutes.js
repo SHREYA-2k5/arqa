@@ -135,7 +135,6 @@ router.get("/report", async (req, res) => {
         }
       };
 
-      // 2. Call Gemini with explicit JSON schema
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       const result = await model.generateContent({
         contents: [{
@@ -150,7 +149,6 @@ router.get("/report", async (req, res) => {
         }
       });
 
-      // 3. Get structured JSON response
       const response = await result.response;
       const jsonResponse = JSON.parse(response.text());
       

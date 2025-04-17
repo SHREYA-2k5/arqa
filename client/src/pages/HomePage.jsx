@@ -9,9 +9,11 @@ function HomePage() {
       <div className="relative flex h-screen flex-col items-center justify-center px-4 text-center">
         <h1 className="text-6xl md:text-7xl lg:text-8xl text-white mb-4 font-bold">Save & Share</h1>
         <p className="text-xl md:text-2xl text-white mb-8 max-w-2xl">Reducing Food Waste, One Meal at a Time</p>
-        <button className="bg-orange-500 hover:bg-black text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300">
+        <a href='/login'>
+        <div className="bg-orange-500 hover:bg-black text-white font-bold py-3 px-8 rounded-lg text-lg transition duration-300">
           Join Us
-        </button>
+        </div>
+        </a>
       </div>
 
       {/* Socials Section - Left Aligned */}

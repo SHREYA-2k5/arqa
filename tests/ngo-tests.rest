@@ -21,14 +21,14 @@ GET {{baseUrl}}/67f1428a70519c340f2f3d78
 
 
 ### Create Organization 1
-POST http://localhost:3000/api/organizations
+POST {{baseUrl}}/
 Content-Type: application/json
 
 {
   "organizationName": "Sunrise Foundation",
   "email": "contact@sunrisefoundation.org",
   "phone": "+91-9876543210",
-  "address": "123 Gandhi Street, Kilambakkam",
+  "address": "123 Gandhi Street, Kelambakkam",
   "city": "Chennai",
   "state": "Tamil Nadu",
   "country": "India",
@@ -37,14 +37,14 @@ Content-Type: application/json
 }
 
 ### Create Organization 2
-POST http://localhost:3000/api/organizations
+POST {{baseUrl}}/
 Content-Type: application/json
 
 {
   "organizationName": "Greenworld Society",
   "email": "info@greenworldsociety.org",
   "phone": "+91-8765432109",
-  "address": "456 Nehru Avenue, Kilambakkam",
+  "address": "456 Nehru Avenue, Kelambakkam",
   "city": "Chennai",
   "state": "Tamil Nadu",
   "country": "India",
@@ -53,14 +53,14 @@ Content-Type: application/json
 }
 
 ### Create Organization 3
-POST http://localhost:3000/api/organizations
+POST {{baseUrl}}/
 Content-Type: application/json
 
 {
   "organizationName": "Education For All",
   "email": "contact@educationforall.edu",
   "phone": "+91-7654321098",
-  "address": "789 Knowledge Road, Kilambakkam",
+  "address": "789 Knowledge Road, Kelambakkam",
   "city": "Chennai",
   "state": "Tamil Nadu",
   "country": "India",
@@ -69,14 +69,14 @@ Content-Type: application/json
 }
 
 ### Create Organization 4
-POST http://localhost:3000/api/organizations
+POST {{baseUrl}}/
 Content-Type: application/json
 
 {
   "organizationName": "Global Care Initiative",
   "email": "info@globalcare.org",
   "phone": "+91-6543210987",
-  "address": "10 Helping Hand Lane, Kilambakkam",
+  "address": "10 Helping Hand Lane, Kelambakkam",
   "city": "Chennai",
   "state": "Tamil Nadu",
   "country": "India",
@@ -85,14 +85,14 @@ Content-Type: application/json
 }
 
 ### Create Organization 5
-POST http://localhost:3000/api/organizations
+POST {{baseUrl}}/
 Content-Type: application/json
 
 {
   "organizationName": "Divine Community Center",
   "email": "contact@divinecommunitycenter.org",
   "phone": "+91-5432109876",
-  "address": "321 Faith Street, Kilambakkam",
+  "address": "321 Faith Street, Kelambakkam",
   "city": "Chennai",
   "state": "Tamil Nadu",
   "country": "India",
