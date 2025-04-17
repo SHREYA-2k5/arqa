@@ -63,7 +63,7 @@ By default the server will start on port 8080 and the client will start on 5173.
 ## Document Structure
 
 The app (and Gemini!) expects the data to be in the following format:
-```json
+```js
 user: {
     name: String,
     email: String, // Must be Unique
